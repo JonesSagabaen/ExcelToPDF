@@ -18,11 +18,11 @@ From the command-line navigate to the project's root directory.  Create a clean 
 $ ./gradlew clean shadowJar
 ```
 
-A fat JAR will be created in the directory: _/print-personal-info/build/libs/print-personal-info-1.0-SNAPSHOT-all.jar_
+A fat JAR will be created in the directory: _/excel-to-pdf/build/libs/excel-to-pdf-1.0-SNAPSHOT-all.jar_
 
 The JAR can then be executed by double-clicking or running in the command-line
 ```
-$ java -jar print-personal-info-1.0-SNAPSHOT-all.jar
+$ java -jar excel-to-pdf-1.0-SNAPSHOT-all.jar
 ```
 
 ### Application Configuration
@@ -42,7 +42,7 @@ is a text field to be entered into the PDF document.
 |||excel_header_name|||x-coordinate|||y-coordinate|||font_size|||
 ``` 
 
-Here is the format from the sample document (provided in _/print-personal-info/user.conf_)
+Here is the format from the sample document (provided in _/excel-to-pdf/user.conf_)
 ```
 |||name|||210|||543|||20|||
 |||id number|||210|||510|||20|||
@@ -55,9 +55,9 @@ Here is the format from the sample document (provided in _/print-personal-info/u
 
 Documents in this project are provided as a sample.
 
-* **Configuration file** _/print-personal-info/user.conf_ - Must be placed in the same directory as the application .JAR
-* **Excel document** _/print-personal-info/src/test/resources/Personnel.xlsx_
-* **PDF document** _/print-personal-info/src/test/resources/SignUpForm.xlsx_
+* **Configuration file** _/excel-to-pdf/user.conf_ - Must be placed in the same directory as the application .JAR
+* **Excel document** _/excel-to-pdf/src/test/resources/Personnel.xlsx_
+* **PDF document** _/excel-to-pdf/src/test/resources/SignUpForm.xlsx_
 
 Provide all of these documents to the application.  If successful, a generated PDF file will be made.
 Give it a try!

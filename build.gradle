@@ -23,7 +23,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'AppView',
+                'Main-Class': 'ExcelToPDF',
                 'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
         )
     }
@@ -33,10 +33,10 @@ jar {
 // Building Executable JAR
 //////////////////////////////////////////////////////////////////////
 // 1.Open Gradle tab
-// 2. Select print-personal-info > Tasks > build > clean (Execute by double-clicking)
-// 3. Select print-personal-info > Tasks > build > build
-// 4. Select print-personal-info > Tasks > shadow > shadowJar
-// 5. Get executable JAR (a.k.a. Fat Jar, Uber Jar) from print-personal-info > build > libs
+// 2. Select excel-to-pdf > Tasks > build > clean (Execute by double-clicking)
+// 3. Select excel-to-pdf > Tasks > build > build
+// 4. Select excel-to-pdf > Tasks > shadow > shadowJar
+// 5. Get executable JAR (a.k.a. Fat Jar, Uber Jar) from excel-to-pdf > build > libs
 //    Name of JAR ends with "-all.jar"
 //
 // To test JAR is functional, setup a run configuration in IntelliJ using the "JAR Application"
