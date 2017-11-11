@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '2.0.1'
+}
+
+group 'sagabaen.jones.printpersonalinfo'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'com.intellij', name: 'forms_rt', version: '7.0.3'
+    compile group: 'org.apache.poi', name: 'poi', version: '3.17'
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
+    compile group: 'com.itextpdf', name: 'itext7-core', version: '7.0.4'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'AppView',
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}
+
+//////////////////////////////////////////////////////////////////////
+// Building Executable JAR
+//////////////////////////////////////////////////////////////////////
+// 1.Open Gradle tab
+// 2. Select print-personal-info > Tasks > build > clean (Execute by double-clicking)
+// 3. Select print-personal-info > Tasks > build > build
+// 4. Select print-personal-info > Tasks > shadow > shadowJar
+// 5. Get executable JAR (a.k.a. Fat Jar, Uber Jar) from print-personal-info > build > libs
+//    Name of JAR ends with "-all.jar"
+//
+// To test JAR is functional, setup a run configuration in IntelliJ using the "JAR Application"
+// setup.  Locate built JAR and run/debug.
