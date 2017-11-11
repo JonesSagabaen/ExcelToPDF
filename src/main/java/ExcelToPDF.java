@@ -16,7 +16,6 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class ExcelToPDF {
 
@@ -75,7 +74,10 @@ public class ExcelToPDF {
                 "About developer");
         menuItemAbout.addActionListener((ActionEvent e) ->
                 JOptionPane.showMessageDialog(null,
-                    "Developer: Jones Sagabaen \n" +
+                    "Excel to PDF \n" +
+                            "https://github.com/JonesSagabaen/ExcelToPDF \n" +
+                            "\n" +
+                            "Developer: Jones Sagabaen \n" +
                             "Build in November 10, 2017",
                     "About",
                     JOptionPane.PLAIN_MESSAGE));
@@ -102,7 +104,8 @@ public class ExcelToPDF {
 
         // Get directory from where this app is launched
         classFilepath = new File("").getAbsolutePath();
-        System.out.println("Current app directory: " + classFilepath);
+        System.out.println("Current app directory:");
+        System.out.println(classFilepath);
 
         // Set default values for UI fields
         inputExcelFilepathField.setText(classFilepath);
@@ -116,7 +119,7 @@ public class ExcelToPDF {
         // Action Listeners
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // Action for Excel file Chooser button
+        // Action for Excel file chooser button
         chooseExcelFileButton.addActionListener((ActionEvent e) -> {
             JFileChooser fileChooser = new JFileChooser();
             File file = new File(classFilepath);
@@ -128,6 +131,7 @@ public class ExcelToPDF {
             }
         });
 
+        // Action for PDF file chooser button
         choosePdfFileButton.addActionListener((ActionEvent e) -> {
             JFileChooser fileChooser = new JFileChooser();
             File file = new File(classFilepath);
@@ -242,14 +246,15 @@ public class ExcelToPDF {
         }
         // Report that no matches found if no matches found for name lookup
         else if (namesInExcelDoc.length == 0) {
+            writeToPDF.closePdf();
             JOptionPane.showMessageDialog(null,
                     "No matches found.");
         }
         // Return a list of all matching names if multiple names match name lookup
         else {
+            writeToPDF.closePdf();
             JOptionPane.showMessageDialog(null,
-                    "Name matches found: \n" +
-                            Arrays.toString(namesInExcelDoc),
+                            namesInExcelDoc,
                     "Multiple Matches",
                     JOptionPane.PLAIN_MESSAGE);
         }
@@ -266,7 +271,9 @@ public class ExcelToPDF {
             String excelLookupField = excelReader.getFieldFromRow(rowNumberForLookup, conf.getTargetExcelColumnName());
             writeToPDF.fillInTextField(excelLookupField, conf.getX(), conf.getY(), conf.getFontSize(), 500);
         }
-        writeToPDF.generatePDF();
+        writeToPDF.generatePdf();
+        System.out.println("Successfully generated PDF:");
+        System.out.println(classFilepath + writeToPDF.getOutputPDF());
 
         JOptionPane.showMessageDialog(null,
                 "PDF file generated: \n" +

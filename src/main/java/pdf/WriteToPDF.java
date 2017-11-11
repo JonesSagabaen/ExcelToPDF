@@ -56,7 +56,10 @@ public class WriteToPDF {
         //Initialize PDF document
         PdfDocument pdfDoc = null;
         pdfDocument = new PdfDocument(new PdfReader(this.basePDF), new PdfWriter(this.outputPDF));
-        this.manipulatingDocument = new Document(pdfDocument);
+        manipulatingDocument = new Document(pdfDocument);
+
+        System.out.println("PDF document set:");
+        System.out.println("Filepath: " + this.basePDF);
     }
 
     /**
@@ -76,20 +79,34 @@ public class WriteToPDF {
 
             Paragraph paragraph = new Paragraph(text).setMargin(0);
             paragraph.setFixedPosition(x, y, occupyingWidth);
-            this.manipulatingDocument.add(paragraph);
+            manipulatingDocument.add(paragraph);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Called at the end of manipulating PDF document.
+     * Generate manipulated PDF document.
      * @return                  The generated PDF document.
      */
-    public PdfDocument generatePDF() {
-        this.manipulatingDocument.close();
-        this.pdfDocument.close();
-        return this.pdfDocument;
+    public PdfDocument generatePdf() {
+        // Close documents
+        manipulatingDocument.close();
+        pdfDocument.close();
+        return pdfDocument;
+    }
+
+    /**
+     * Close document writers and cleanup output file since no modifications were made to base PDF.
+     */
+    public void closePdf() {
+        // Close documents
+        manipulatingDocument.close();
+        pdfDocument.close();
+
+        // Remove generated file since no modifications were done to base PDF
+        File temporaryFile = new File(outputPDF);
+        temporaryFile.delete();
     }
 
     /**

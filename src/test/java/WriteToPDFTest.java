@@ -7,9 +7,10 @@ import java.io.File;
 
 public class WriteToPDFTest {
 
+    private final String inputPDF = "src/test/resources/SignUpForm.pdf";
+
     @Test
     public void writeInPDF() throws Exception {
-        final String inputPDF = "src/test/resources/SignUpForm.pdf";
         final String outputPDF = "out/test/resources/writeInPDF_test.pdf";
 
         // Perform cleanup before running test
@@ -28,7 +29,20 @@ public class WriteToPDFTest {
         writeToPDF.fillInTextField("00001", 210, 510, 20, 500);
         writeToPDF.fillInTextField("01/01/1900", 140, 468, 20, 500);
         writeToPDF.fillInTextField("11/01/2017", 382, 468, 20, 500);
-        PdfDocument pdfDocument = writeToPDF.generatePDF();
+        PdfDocument pdfDocument = writeToPDF.generatePdf();
         Assert.assertNotNull(pdfDocument);
+    }
+
+    @Test
+    public void noFileGenerated() throws Exception {
+        final String outputPDF = "out/test/resources/notSupposedToExist.pdf";
+
+        // Write file but delete it
+        WriteToPDF writeToPDF = new WriteToPDF(inputPDF, outputPDF);
+        writeToPDF.fillInTextField("Sagabaen, Jones", 210, 543, 20, 500);
+        writeToPDF.closePdf();
+
+        File fileCheck = new File(outputPDF);
+        Assert.assertFalse(fileCheck.exists());
     }
 }
