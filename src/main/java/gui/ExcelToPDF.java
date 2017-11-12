@@ -1,3 +1,5 @@
+package gui;
+
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import configuration.ConfigurationFile;
@@ -32,6 +34,7 @@ public class ExcelToPDF {
     private JSpinner headerRowsSpinner;
     private JPanel excelPanel;
     private JPanel pdfPanel;
+    private JPanel marginsPanel;
 
     /**
      * Main method for launching the GUI.

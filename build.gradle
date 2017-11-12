@@ -23,7 +23,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'ExcelToPDF',
+                'Main-Class': 'gui.ExcelToPDF',
                 'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
         )
     }
