@@ -6,7 +6,6 @@ import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
-
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
@@ -18,29 +17,32 @@ import java.io.IOException;
 public class WriteToPDF {
 
     /**
-     * The PDF document that will be used for being written on top of.
+     * The PDF document that will be used as a basis.
      */
     private String basePDF;
 
     /**
-     * The output PDF after making all the document changes.
+     * The output PDF after making writing annotations against the base PDF.
      */
     private String outputPDF;
 
     /**
-     * The PDF document passed by this class.
+     * The PDF document object used during writing manipulations.
      */
     private PdfDocument pdfDocument;
 
     /**
-     * The document in the format that is ready to be manipulated.
+     * The generic document object used during writing manipulations.
      */
     private Document manipulatingDocument;
 
+    /**
+     * The color for writing annotations to be made.
+     */
     private Color printTextColor;
 
     /**
-     * Initilize the PDF document that will be manipulated.
+     * Initialize the PDF document that will be manipulated.
      * @param basePDF           The filepath to the PDF document that will be used as a basis of manipulation.
      * @param outputPDF         The filepath for outputting the PDF document after manipulation.
      */
@@ -54,6 +56,8 @@ public class WriteToPDF {
         // Assign variables
         this.basePDF = basePDF;
         this.outputPDF = outputPDF;
+
+        // Set default color value
         printTextColor = Color.RED;
 
         //Initialize PDF document
@@ -65,23 +69,31 @@ public class WriteToPDF {
         System.out.println("Filepath: " + this.basePDF);
     }
 
+    /**
+     * Get the color to be used by writing annotations that are to be done.
+     * @return                  The color set for writing annotations.
+     */
     public Color getPrintTextColor() {
         return printTextColor;
     }
 
+    /**
+     * Set the color for writing annotations that are to be done.
+     * @param printTextColor    The desired color for writing annotations.
+     */
     public void setPrintTextColor(Color printTextColor) {
         this.printTextColor = printTextColor;
     }
 
     /**
      * Write text onto the PDF document given the text, font size and coordinates.
-     * @param textInput         The text to enter.
+     * @param textInput         The text to write.
      * @param fontSize          The font size.
      * @param x                 The x coordinate originating from the bottom-left of the PDF document.
      * @param y                 The y coordinate originating from the bottom-left of the PDF document.
      * @param occupyingWidth    The total width size allowed for the given text to enter.
      */
-    public void fillInTextField(String textInput, int fontSize, int x, int y, int occupyingWidth) {
+    public void writeTextField(String textInput, int fontSize, int x, int y, int occupyingWidth) {
         try {
             Text text = new Text(textInput)
                     .setFontColor(printTextColor)

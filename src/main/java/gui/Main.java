@@ -211,21 +211,21 @@ public class Main {
             if (conf instanceof ConfigurationPrint) {
                 ConfigurationPrint confPrint = (ConfigurationPrint) conf;
                 String printString = confPrint.getPrintString();
-                writeToPDF.fillInTextField(printString, confPrint.getFontSize(), confPrint.getX(), confPrint.getY(), 500);
+                writeToPDF.writeTextField(printString, confPrint.getFontSize(), confPrint.getX(), confPrint.getY(), 500);
             }
             else if (conf instanceof ConfigurationLookup) {
                 int rowNumberForLookup = excelReader.getRowIndex(inputNameLookupField.getText());
                 ConfigurationLookup confLookup = (ConfigurationLookup) conf;
-                String excelLookupResult = excelReader.getFieldFromRow(rowNumberForLookup, confLookup.getExcelTargetColumn());
-                writeToPDF.fillInTextField(excelLookupResult, confLookup.getFontSize(), confLookup.getX(), confLookup.getY(), 500);
+                String excelLookupResult = excelReader.lookupDetail(rowNumberForLookup, confLookup.getExcelTargetColumn());
+                writeToPDF.writeTextField(excelLookupResult, confLookup.getFontSize(), confLookup.getX(), confLookup.getY(), 500);
             }
             else if (conf instanceof ConfigurationCheckbox) {
                 int rowNumberForLookup = excelReader.getRowIndex(inputNameLookupField.getText());
                 ConfigurationCheckbox confCheckbox = (ConfigurationCheckbox) conf;
-                String excelLookupResult = excelReader.getFieldFromRow(rowNumberForLookup, confCheckbox.getExcelTargetColumn());
+                String excelLookupResult = excelReader.lookupDetail(rowNumberForLookup, confCheckbox.getExcelTargetColumn());
                 if (confCheckbox.setCheckboxSelection(excelLookupResult)) {
                     // Note: Attempted an ASCII checkmark but wasn't printing so an X is used instead
-                    writeToPDF.fillInTextField("X", confCheckbox.getFontSize(), confCheckbox.getX(), confCheckbox.getY(), 500);
+                    writeToPDF.writeTextField("X", confCheckbox.getFontSize(), confCheckbox.getX(), confCheckbox.getY(), 500);
                 }
             }
         }

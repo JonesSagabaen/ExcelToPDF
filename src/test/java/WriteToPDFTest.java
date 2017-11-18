@@ -22,13 +22,13 @@ public class WriteToPDFTest {
 
         // Write in document fields
         WriteToPDF writeToPDF = new WriteToPDF(inputPDF, outputPDF);
-        writeToPDF.fillInTextField("11", 419, 602, 18, 50);
-        writeToPDF.fillInTextField("01", 475 , 602, 18, 50);
-        writeToPDF.fillInTextField("2017", 517, 602, 18, 50);
-        writeToPDF.fillInTextField("Sagabaen, Jones", 210, 543, 20, 500);
-        writeToPDF.fillInTextField("00001", 210, 510, 20, 500);
-        writeToPDF.fillInTextField("01/01/1900", 140, 468, 20, 500);
-        writeToPDF.fillInTextField("11/01/2017", 382, 468, 20, 500);
+        writeToPDF.writeTextField("11", 419, 602, 18, 50);
+        writeToPDF.writeTextField("01", 475 , 602, 18, 50);
+        writeToPDF.writeTextField("2017", 517, 602, 18, 50);
+        writeToPDF.writeTextField("Sagabaen, Jones", 210, 543, 20, 500);
+        writeToPDF.writeTextField("00001", 210, 510, 20, 500);
+        writeToPDF.writeTextField("01/01/1900", 140, 468, 20, 500);
+        writeToPDF.writeTextField("11/01/2017", 382, 468, 20, 500);
         PdfDocument pdfDocument = writeToPDF.generatePdf();
         Assert.assertNotNull(pdfDocument);
     }
@@ -39,7 +39,7 @@ public class WriteToPDFTest {
 
         // Write file but delete it
         WriteToPDF writeToPDF = new WriteToPDF(inputPDF, outputPDF);
-        writeToPDF.fillInTextField("Sagabaen, Jones", 210, 543, 20, 500);
+        writeToPDF.writeTextField("Sagabaen, Jones", 210, 543, 20, 500);
         writeToPDF.closePdf();
 
         File fileCheck = new File(outputPDF);

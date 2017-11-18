@@ -15,7 +15,7 @@ public class ExcelReaderTest {
 
     @Test
     public void readEntireExcelXlsx() throws Exception {
-        String actualOutput = testDocReader.readEntireDocument();
+        String actualOutput = testDocReader.readExcelDocument();
         String expectedOutput = "||||||ID Digits|||||||Department|Security|Additional Notes||\n" +
                 "|Row #|Name|Email Address|Newsletter Signup|ID Number|1|2|3|4|5|Birthday|Anniversary|||||\n" +
                 "|1|Takahashi, Ryo|ryotakahashi@testgmail.com|Yes|55501|5|5|5|0|1|05/18/80|09/XX/92|PR|Tier 3|Blue blazer|\n" +
@@ -83,7 +83,7 @@ public class ExcelReaderTest {
 
     @Test
     public void lookupSingleRowInformation() throws Exception {
-        String actualInfoObtained = testDocReader.getFieldFromRow(2, "name");
+        String actualInfoObtained = testDocReader.lookupDetail(2, "name");
         String expectedInfoObtained = "Takahashi, Ryo";
         Assert.assertEquals(expectedInfoObtained, actualInfoObtained);
     }
@@ -91,7 +91,7 @@ public class ExcelReaderTest {
     @Test
     public void getInfoFromFormulaResult() throws Exception {
         String[] desireInfo = {"Name", "ID Number", "Birthday", "Department"};
-        String[] actualInfoObtained = testDocReader.getFieldsFromRow(2, desireInfo);
+        String[] actualInfoObtained = testDocReader.lookupDetails(2, desireInfo);
         String[] expectedInfoObtained = {"Takahashi, Ryo", "55501", "05/18/80", "PR"};
         Assert.assertArrayEquals(expectedInfoObtained, actualInfoObtained);
     }
@@ -99,7 +99,7 @@ public class ExcelReaderTest {
     @Test
     public void readExcelFormulaCellValid() throws Exception {
         int rowNumber = testDocReader.getRowIndex("Sapperstein, Donny");
-        String actualResult = testDocReader.getFieldFromRow(rowNumber, "ID Number");
+        String actualResult = testDocReader.lookupDetail(rowNumber, "ID Number");
         String expectedResult = "00629";
         Assert.assertEquals(expectedResult, actualResult);
     }
@@ -107,7 +107,7 @@ public class ExcelReaderTest {
     @Test
     public void readExcelFormulaCellBlank() throws Exception {
         int rowNumber = testDocReader.getRowIndex("Blake, Kerry");
-        String actualResult = testDocReader.getFieldFromRow(rowNumber, "ID Number");
+        String actualResult = testDocReader.lookupDetail(rowNumber, "ID Number");
         String expectedResult = "";
         Assert.assertEquals(expectedResult, actualResult);
     }
@@ -115,7 +115,7 @@ public class ExcelReaderTest {
     @Test
     public void readExcelFormulaCellShort() throws Exception {
         int rowNumber = testDocReader.getRowIndex("Two, Timbuk");
-        String actualResult = testDocReader.getFieldFromRow(rowNumber, "ID Number");
+        String actualResult = testDocReader.lookupDetail(rowNumber, "ID Number");
         String expectedResult = "7";
         Assert.assertEquals(expectedResult, actualResult);
     }
