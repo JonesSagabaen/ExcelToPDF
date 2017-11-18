@@ -28,26 +28,46 @@ $ java -jar excel-to-pdf-1.0-SNAPSHOT-all.jar
 ### Application Configuration
 
 The application relies on a configuration file which maps columns from an Excel document to  
-properties for placing the text onto the PDF form. 
+properties for writing the text onto the PDF form. 
 
 Currently, this file needs to be manually created until further progress will have the user enter 
 the information and have the application generate this file.  
 
 ### Format
 The configuration file can be created using any text editor but needs to be saved with the title **user.conf**. 
-The file must be placed in the same directory as the executable .JAR file.  Each row inside of the configuration file 
-is a text field to be entered into the PDF document.
+The file must be placed in the same directory as the executable .JAR file.  
+
+There are different types of configurations that are saved as a row record.
+
+* **Print** - This is a mapping of a text string that writes to a specific field. 
 
 ```
-|||excel_header_name|||x-coordinate|||y-coordinate|||font_size|||
+|||print|||20|||111217|||450|||595|||
 ``` 
 
-Here is the format from the sample document (provided in _/excel-to-pdf/user.conf_)
+* **Lookup** - This is a similar mapping of a text string but instead will do a lookup within the Excel document 
+provided.  The lookup is between the column given in this configuration and with the name given in the application.
+
 ```
-|||name|||210|||543|||20|||
-|||id number|||210|||510|||20|||
-|||birthday|||145|||468|||20|||
-|||anniversary|||395|||468|||20|||
+|||excelLookup|||20|||name|||210|||540|||
+``` 
+
+* **Checkbox** - This maps locations for checking a checkbox on the PDF form based on the option saved in the 
+Excel form. 
+
+```
+|||checkbox|||20|||newsletter signup|||yes|||431|||455|||no|||495|||455|||
+``` 
+
+Here is an example of the contents of a configuration file (sample provided in _/excel-to-pdf/user.conf_):
+```
+|||print|||20|||111217|||450|||595|||
+|||excelLookup|||20|||name|||210|||540|||
+|||excelLookup|||16|||id number|||210|||510|||
+|||excelLookup|||16|||email address|||210|||490|||
+|||checkbox|||20|||newsletter signup|||yes|||431|||455|||no|||495|||455|||
+|||excelLookup|||20|||birthday|||145|||405|||
+|||excelLookup|||20|||anniversary|||395|||405|||
 
 ```  
 
