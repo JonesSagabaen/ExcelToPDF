@@ -88,10 +88,10 @@ public class ExcelReader {
 
     /**
      * Get the index of a column given the column header value.
-     * @param columnName        The name of the header column to search for.
+     * @param headerName        The name of the header column to search for.
      * @return                  The column index of the header that was found.
      */
-    public int getHeaderColumnIndex(String columnName) {
+    public int getColumnIndex(String headerName) {
         int docNumColumns = Integer.MIN_VALUE;
         for (int rowIterator = 0; rowIterator < numOfHeaderRows; rowIterator++) {
             Row currentRow = this.sheet.getRow(rowIterator);
@@ -107,8 +107,8 @@ public class ExcelReader {
             for (int cellIterator = 0; cellIterator < lastColumn; cellIterator++) {
                 Cell cellContent = currentRow.getCell(cellIterator, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
                 //System.out.println("x,y: " + rowIterator + "," + cellIterator);
-                columnName = columnName.trim();
-                if (this.printCellContent(cellContent).equalsIgnoreCase(columnName)) {
+                headerName = headerName.trim();
+                if (this.printCellContent(cellContent).equalsIgnoreCase(headerName)) {
                     return cellIterator;
                 }
             }
@@ -125,7 +125,7 @@ public class ExcelReader {
      */
     public String[] listMatchingNames(String name)  throws IllegalArgumentException {
         // Get name column
-        int nameColumnIndex = this.getHeaderColumnIndex("name");
+        int nameColumnIndex = this.getColumnIndex("name");
 
         // Go through the names column and get all names matching the given parameter.
         // Results are saved in a HashSet so that duplicates are not added to result set.
@@ -143,17 +143,17 @@ public class ExcelReader {
      * Gets the row number of the given name.
      * Gets only the first matching name.  In order to get the most accurate name, give user list to narrow down from
      * by using the listMatchingNames() method.
-     * @param name          The name to search for in the Excel workbook.
+     * @param nameLookup    The name to search within the Excel name column.
      * @return              The row number where the name is found in.
      */
-    public int getRowFromName(String name) {
+    public int getRowIndex(String nameLookup) {
         // Get name column
-        int nameColumnIndex = this.getHeaderColumnIndex("name");
+        int nameColumnIndex = this.getColumnIndex("name");
 
         for (int rowIterator = 0; rowIterator <= sheet.getLastRowNum(); rowIterator++) {
             Row currentRow = this.sheet.getRow(rowIterator);
             Cell cellContent = currentRow.getCell(nameColumnIndex, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-            if (cellContent.getStringCellValue().toLowerCase().contains(name.toLowerCase()))
+            if (cellContent.getStringCellValue().toLowerCase().contains(nameLookup.toLowerCase()))
                 return rowIterator;
         }
 
@@ -172,7 +172,7 @@ public class ExcelReader {
         Row desiredRow = this.sheet.getRow(rowNumber);
 
         // Read target field based on the given Excel header name
-        int columnNum = this.getHeaderColumnIndex(headerName);
+        int columnNum = this.getColumnIndex(headerName);
         Cell cellContent = desiredRow.getCell(columnNum, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
         return this.printCellContent(cellContent);
     }
@@ -190,7 +190,7 @@ public class ExcelReader {
         // Go through each header name of the given list and get the cell content from the established desired row
         ArrayList<String> desiredInfo = new ArrayList<>();
         for (String headerName : headerNames) {
-            int columnNum = this.getHeaderColumnIndex(headerName);
+            int columnNum = this.getColumnIndex(headerName);
             Cell cellContent = desiredRow.getCell(columnNum, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
             desiredInfo.add(this.printCellContent(cellContent));
         }
@@ -217,12 +217,7 @@ public class ExcelReader {
                 switch (cellToRead.getCachedFormulaResultTypeEnum()) {
                     case STRING:
                         numericToString = cellToRead.getStringCellValue();
-
-                        // TODO: Error here when attempting to read a Excel field that has a formula but results in
-                        // an empty string.
-                        System.out.println("numericToString: " + numericToString);
-
-                        numericToString = this.removeDotZeroFromStringEnd(numericToString);
+                        numericToString = removeDotZeroFromStringEnd(numericToString);
                         return numericToString;
                     case NUMERIC:
                         numericToString = Double.toString(cellToRead.getNumericCellValue());
@@ -240,8 +235,10 @@ public class ExcelReader {
      * @return                          The resulting String
      */
     private String removeDotZeroFromStringEnd(String numericStringToCleanup) {
-        if (numericStringToCleanup.substring(numericStringToCleanup.length() - 2, numericStringToCleanup.length()).equalsIgnoreCase(".0"))
-            numericStringToCleanup = numericStringToCleanup.substring(0, numericStringToCleanup.length() - 2);
+        int stringLength = numericStringToCleanup.length();
+        if (stringLength > 2)
+            if (numericStringToCleanup.substring(stringLength - 2, stringLength).equalsIgnoreCase(".0"))
+                numericStringToCleanup = numericStringToCleanup.substring(0, numericStringToCleanup.length() - 2);
         return numericStringToCleanup;
     }
 }
