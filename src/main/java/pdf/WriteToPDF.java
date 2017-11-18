@@ -37,6 +37,8 @@ public class WriteToPDF {
      */
     private Document manipulatingDocument;
 
+    private Color printTextColor;
+
     /**
      * Initilize the PDF document that will be manipulated.
      * @param basePDF           The filepath to the PDF document that will be used as a basis of manipulation.
@@ -52,6 +54,7 @@ public class WriteToPDF {
         // Assign variables
         this.basePDF = basePDF;
         this.outputPDF = outputPDF;
+        printTextColor = Color.RED;
 
         //Initialize PDF document
         PdfDocument pdfDoc = null;
@@ -62,18 +65,26 @@ public class WriteToPDF {
         System.out.println("Filepath: " + this.basePDF);
     }
 
+    public Color getPrintTextColor() {
+        return printTextColor;
+    }
+
+    public void setPrintTextColor(Color printTextColor) {
+        this.printTextColor = printTextColor;
+    }
+
     /**
      * Write text onto the PDF document given the text, font size and coordinates.
      * @param textInput         The text to enter.
+     * @param fontSize          The font size.
      * @param x                 The x coordinate originating from the bottom-left of the PDF document.
      * @param y                 The y coordinate originating from the bottom-left of the PDF document.
-     * @param fontSize          The font size.
      * @param occupyingWidth    The total width size allowed for the given text to enter.
      */
-    public void fillInTextField(String textInput, int x, int y, int fontSize, int occupyingWidth) {
+    public void fillInTextField(String textInput, int fontSize, int x, int y, int occupyingWidth) {
         try {
             Text text = new Text(textInput)
-                    .setFontColor(Color.RED)
+                    .setFontColor(printTextColor)
                     .setFontSize(fontSize)
                     .setFont(PdfFontFactory.createFont(FontConstants.TIMES_ROMAN));
 

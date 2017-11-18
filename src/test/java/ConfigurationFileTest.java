@@ -1,5 +1,4 @@
-import configuration.ConfigurationFile;
-import configuration.ExcelPDFConfiguration;
+import configuration.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,17 +13,35 @@ public class ConfigurationFileTest {
     private final static String configurationFilepath = "src/test/resources/";
 
     @Test
-    public void readConfigurationFile() throws Exception {
+    public void readPrint() throws Exception {
         ConfigurationFile configurationFile = new ConfigurationFile(configurationFilepath + ConfigurationFile.getFilename());
         ExcelPDFConfiguration[] actualConfigurationsSet = configurationFile.getConfigurationFields();
-        Assert.assertEquals("name", actualConfigurationsSet[0].getTargetExcelColumnName());
-        Assert.assertEquals("id number", actualConfigurationsSet[1].getTargetExcelColumnName());
-        Assert.assertEquals("birthday", actualConfigurationsSet[2].getTargetExcelColumnName());
-        Assert.assertEquals("anniversary", actualConfigurationsSet[3].getTargetExcelColumnName());
+        Assert.assertEquals("111217", ((ConfigurationPrint) actualConfigurationsSet[0]).getPrintString());
     }
 
     @Test
-    public void writeConfigurationFile() throws Exception {
+    public void readLookup() throws Exception {
+        ConfigurationFile configurationFile = new ConfigurationFile(configurationFilepath + ConfigurationFile.getFilename());
+        ExcelPDFConfiguration[] actualConfigurationsSet = configurationFile.getConfigurationFields();
+        Assert.assertEquals("name", ((ConfigurationLookup) actualConfigurationsSet[1]).getExcelTargetColumn());
+        Assert.assertEquals("id number", ((ConfigurationLookup) actualConfigurationsSet[2]).getExcelTargetColumn());
+        Assert.assertEquals("birthday", ((ConfigurationLookup) actualConfigurationsSet[5]).getExcelTargetColumn());
+        Assert.assertEquals("anniversary", ((ConfigurationLookup) actualConfigurationsSet[6]).getExcelTargetColumn());
+    }
+
+    @Test
+    public void readCheckbox() throws Exception {
+        ConfigurationFile configurationFile = new ConfigurationFile(configurationFilepath + ConfigurationFile.getFilename());
+        ExcelPDFConfiguration[] actualConfigurationsSet = configurationFile.getConfigurationFields();
+        ConfigurationCheckbox confCheckbox = (ConfigurationCheckbox) actualConfigurationsSet[4];
+        confCheckbox.setCheckboxSelection("yes");
+        Assert.assertEquals("newsletter signup", confCheckbox.getExcelTargetColumn());
+        Assert.assertEquals(Integer.parseInt("431"), confCheckbox.getX());
+        Assert.assertEquals(Integer.parseInt("455"), confCheckbox.getY());
+    }
+
+    @Test
+    public void writeReadFile() throws Exception {
         final String testDirectory = "out/test/resources";
         // Perform cleanup before running test
         File fileToDelete = new File(testDirectory + ConfigurationFile.getFilename());
@@ -33,11 +50,14 @@ public class ConfigurationFileTest {
         }
 
         // Create configuration file
-        ExcelPDFConfiguration config1 = new ExcelPDFConfiguration("name", 100, 100, 12);
-        ExcelPDFConfiguration config2 = new ExcelPDFConfiguration("id number", 100, 120, 12);
-        ExcelPDFConfiguration config3 = new ExcelPDFConfiguration("birthday", 100, 140, 12);
+        String[] configConfPrint = {"20", "Saturday", "500", "580"};
+        ExcelPDFConfiguration config1 = new ConfigurationPrint(configConfPrint);
+        String[] configConfLookup = {"12", "id number", "100", "120"};
+        ExcelPDFConfiguration config2 = new ConfigurationLookup(configConfLookup);
+        String[] configConfCheckbox = {"20", "still employed", "yes", "210", "400", "no", "250", "400"};
+        ExcelPDFConfiguration config3 = new ConfigurationCheckbox(configConfCheckbox);
         ExcelPDFConfiguration[] configurationsSet = {config1, config2, config3};
-        ConfigurationFile configurationFile = new ConfigurationFile(testDirectory + ConfigurationFile.getFilename(), configurationsSet);
+        new ConfigurationFile(testDirectory + ConfigurationFile.getFilename(), configurationsSet);
 
         // Read created configuration file
         String[] actualConfigurationSetAsStrings = null;
@@ -52,9 +72,9 @@ public class ConfigurationFileTest {
             e.printStackTrace();
         }
 
-        String[] expectedConfigurationSetAsStrings = {"|||name|||100|||100|||12|||",
-                "|||id number|||100|||120|||12|||",
-                "|||birthday|||100|||140|||12|||"};
+        String[] expectedConfigurationSetAsStrings = {"|||print|||20|||Saturday|||500|||580|||",
+                "|||excelLookup|||12|||id number|||100|||120|||",
+                "|||checkbox|||20|||still employed|||yes|||210|||400|||no|||250|||400|||"};
         Assert.assertArrayEquals(expectedConfigurationSetAsStrings, actualConfigurationSetAsStrings);
     }
 }

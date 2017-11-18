@@ -217,6 +217,11 @@ public class ExcelReader {
                 switch (cellToRead.getCachedFormulaResultTypeEnum()) {
                     case STRING:
                         numericToString = cellToRead.getStringCellValue();
+
+                        // TODO: Error here when attempting to read a Excel field that has a formula but results in
+                        // an empty string.
+                        System.out.println("numericToString: " + numericToString);
+
                         numericToString = this.removeDotZeroFromStringEnd(numericToString);
                         return numericToString;
                     case NUMERIC:

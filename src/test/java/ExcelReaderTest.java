@@ -32,7 +32,7 @@ public class ExcelReaderTest {
     @Test
     public void findAHeaderColumn() throws Exception {
         int actualColumnIndex = testDocReader.getHeaderColumnIndex("Birthday");
-        int expectedColumnIndex = 8;
+        int expectedColumnIndex = 10;
         Assert.assertEquals(expectedColumnIndex, actualColumnIndex);
     }
 

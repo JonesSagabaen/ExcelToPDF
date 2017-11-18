@@ -2,8 +2,7 @@ package gui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import configuration.ConfigurationFile;
-import configuration.ExcelPDFConfiguration;
+import configuration.*;
 import excel.ExcelReader;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import pdf.WriteToPDF;
@@ -184,7 +183,7 @@ public class Main {
         // Show match if one result is found for name lookup
         if (namesInExcelDoc.length == 1) {
             // Excel and PDF documents are valid and proceed
-            getExcelInformationToWriteToPDF(excelReader, writeToPDF);
+            write(excelReader, writeToPDF);
         }
         // Report that no matches found if no matches found for name lookup
         else if (namesInExcelDoc.length == 0) {
@@ -207,11 +206,28 @@ public class Main {
      *
      * @param excelReader The excelReader information source.
      */
-    private void getExcelInformationToWriteToPDF(ExcelReader excelReader, WriteToPDF writeToPDF) {
+    private void write(ExcelReader excelReader, WriteToPDF writeToPDF) {
         for (ExcelPDFConfiguration conf : configurationFile.getConfigurationFields()) {
-            int rowNumberForLookup = excelReader.getRowFromName(inputNameLookupField.getText());
-            String excelLookupField = excelReader.getFieldFromRow(rowNumberForLookup, conf.getTargetExcelColumnName());
-            writeToPDF.fillInTextField(excelLookupField, conf.getX(), conf.getY(), conf.getFontSize(), 500);
+            if (conf instanceof ConfigurationPrint) {
+                ConfigurationPrint confPrint = (ConfigurationPrint) conf;
+                String printString = confPrint.getPrintString();
+                writeToPDF.fillInTextField(printString, confPrint.getFontSize(), confPrint.getX(), confPrint.getY(), 500);
+            }
+            else if (conf instanceof ConfigurationLookup) {
+                int rowNumberForLookup = excelReader.getRowFromName(inputNameLookupField.getText());
+                ConfigurationLookup confLookup = (ConfigurationLookup) conf;
+                String excelLookupResult = excelReader.getFieldFromRow(rowNumberForLookup, confLookup.getExcelTargetColumn());
+                writeToPDF.fillInTextField(excelLookupResult, confLookup.getFontSize(), confLookup.getX(), confLookup.getY(), 500);
+            }
+            else if (conf instanceof ConfigurationCheckbox) {
+                int rowNumberForLookup = excelReader.getRowFromName(inputNameLookupField.getText());
+                ConfigurationCheckbox confCheckbox = (ConfigurationCheckbox) conf;
+                String excelLookupResult = excelReader.getFieldFromRow(rowNumberForLookup, confCheckbox.getExcelTargetColumn());
+                if (confCheckbox.setCheckboxSelection(excelLookupResult)) {
+                    // Note: Attempted an ASCII checkmark but wasn't printing so an X is used instead
+                    writeToPDF.fillInTextField("X", confCheckbox.getFontSize(), confCheckbox.getX(), confCheckbox.getY(), 500);
+                }
+            }
         }
         writeToPDF.generatePdf();
         System.out.println("Successfully generated PDF:");

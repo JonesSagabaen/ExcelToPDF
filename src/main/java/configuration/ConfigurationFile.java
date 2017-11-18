@@ -77,16 +77,4 @@ public class ConfigurationFile {
     public static String getFilename() {
         return filename;
     }
-
-    /**
-     * Temporary method for returning a list of target fields to read from processing the Excel file.
-     * @return                      A list of only the target columns to read when processing the Excel file.
-     */
-    public String[] getTargetFields() {
-        ArrayList<String> targetColumnsList = new ArrayList<>();
-        for (ExcelPDFConfiguration configurationField : configurationFields) {
-            targetColumnsList.add(configurationField.getTargetExcelColumnName());
-        }
-        return targetColumnsList.toArray(new String[targetColumnsList.size()]);
-    }
 }
