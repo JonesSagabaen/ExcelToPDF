@@ -35,6 +35,11 @@ public class Main {
     private JPanel pdfPanel;
 
     /**
+     * Set variable to true to enable use of test configuration file.
+     */
+    private final boolean ENABLE_TEST_CONFIGURATION_FILE = true;
+
+    /**
      * Constructor for putting everything together for running the app.
      * All UI logic is here under their associated action listeners.
      */
@@ -104,13 +109,22 @@ public class Main {
      * Read existing or prompt to create a configuration file.
      */
     private void initializeConfigurationFile() {
-        // Read configuration file and make it a Java object to use
-        String configurationFileFilepath = classFilepath + ConfigurationFile.getFilename();
-        File configurationFile = new File(configurationFileFilepath);
-        if (configurationFile.exists()) {
-            System.out.println("Existing configuration file found:");
-            System.out.println(configurationFileFilepath);
-            this.configurationFile = new ConfigurationFile(configurationFileFilepath);
+        if (ENABLE_TEST_CONFIGURATION_FILE) {
+            String testConfFileFilepath = classFilepath + "/src/test/resources" + ConfigurationFile.getFilename();
+            File testConfFile = new File(testConfFileFilepath);
+            System.out.println("Test configuration file in use:");
+            System.out.println(testConfFile);
+            configurationFile = new ConfigurationFile(testConfFileFilepath);
+            return;
+        }
+
+        // Check for expected configuration file in the root directory of this application
+        String confFileFilepath = classFilepath + ConfigurationFile.getFilename();
+        File confFile = new File(confFileFilepath);
+        if (confFile.exists()) {
+            System.out.println("Configuration file found:");
+            System.out.println(confFileFilepath);
+            configurationFile = new ConfigurationFile(confFileFilepath);
         }
         // Prompt to create one if no configuration file has been found
         else {
