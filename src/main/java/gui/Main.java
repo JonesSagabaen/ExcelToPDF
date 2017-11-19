@@ -2,8 +2,7 @@ package gui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import configuration.ConfigurationFile;
-import configuration.ExcelPDFConfiguration;
+import configuration.*;
 import excel.ExcelReader;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import pdf.WriteToPDF;
@@ -19,12 +18,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class ExcelToPDF {
+public class Main {
 
     private String classFilepath;
     private ConfigurationFile configurationFile;
 
-    private JPanel MainView;
+    private JPanel mainView;
     private JTextField inputExcelFilepathField;
     private JTextField inputNameLookupField;
     private JTextField inputPdfFilepathField;
@@ -34,76 +33,15 @@ public class ExcelToPDF {
     private JSpinner headerRowsSpinner;
     private JPanel excelPanel;
     private JPanel pdfPanel;
-    private JPanel marginsPanel;
-
-    /**
-     * Main method for launching the GUI.
-     *
-     * @param args Boilerplate
-     */
-    public static void main(String[] args) {
-        // Note: Order of execution is important to avoid NullPointerException
-        JFrame frame = new JFrame("Excel to PDF");
-        setMenubar(frame);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setContentPane(new ExcelToPDF().MainView);
-        frame.setSize(750, 500);
-        frame.setResizable(true);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
-    /**
-     * Method for setting up the menu bar
-     * @param frame The main view of the application.
-     */
-    private static void setMenubar(JFrame frame) {
-        // MacOS specific setting to have menu in the Mac menu bar
-        System.setProperty("apple.laf.useScreenMenuBar", "true");
-
-        // Creates new Menu Bar for the JFrame.
-        JMenuBar menuBar = new JMenuBar();
-
-        // Create File menu in the menubar
-        JMenu menuFile = new JMenu("File");
-        menuFile.setMnemonic(KeyEvent.VK_F);
-        menuFile.getAccessibleContext().setAccessibleDescription(
-                "File menu");
-        menuBar.add(menuFile);
-
-        // About menu item
-        JMenuItem menuItemAbout = new JMenuItem("About", KeyEvent.VK_A);
-        menuItemAbout.getAccessibleContext().setAccessibleDescription(
-                "About developer");
-        menuItemAbout.addActionListener((ActionEvent e) ->
-                JOptionPane.showMessageDialog(null,
-                    "Excel to PDF \n" +
-                            "https://github.com/JonesSagabaen/ExcelToPDF \n" +
-                            "\n" +
-                            "Developer: Jones Sagabaen \n" +
-                            "Build in November 10, 2017",
-                    "About",
-                    JOptionPane.PLAIN_MESSAGE));
-        menuFile.add(menuItemAbout);
-
-        // Exit menu item
-        JMenuItem menuItemExit = new JMenuItem("Exit", KeyEvent.VK_X);
-        menuItemExit.getAccessibleContext().setAccessibleDescription(
-                "Exit application");
-        menuItemExit.addActionListener((ActionEvent e) -> System.exit(0));
-        menuFile.add(menuItemExit);
-
-        // Add menubar to application
-        frame.setJMenuBar(menuBar);
-    }
 
     /**
      * Constructor for putting everything together for running the app.
      * All UI logic is here under their associated action listeners.
      */
-    public ExcelToPDF() {
+    public Main(JFrame frame) {
         // Custom UI modifications
-        this.setFurtherUICustomizations();
+        setMenubar(frame );
+        setFurtherUICustomizations();
 
         // Get directory from where this app is launched
         classFilepath = new File("").getAbsolutePath();
@@ -245,7 +183,7 @@ public class ExcelToPDF {
         // Show match if one result is found for name lookup
         if (namesInExcelDoc.length == 1) {
             // Excel and PDF documents are valid and proceed
-            getExcelInformationToWriteToPDF(excelReader, writeToPDF);
+            write(excelReader, writeToPDF);
         }
         // Report that no matches found if no matches found for name lookup
         else if (namesInExcelDoc.length == 0) {
@@ -268,11 +206,28 @@ public class ExcelToPDF {
      *
      * @param excelReader The excelReader information source.
      */
-    private void getExcelInformationToWriteToPDF(ExcelReader excelReader, WriteToPDF writeToPDF) {
+    private void write(ExcelReader excelReader, WriteToPDF writeToPDF) {
         for (ExcelPDFConfiguration conf : configurationFile.getConfigurationFields()) {
-            int rowNumberForLookup = excelReader.getRowFromName(inputNameLookupField.getText());
-            String excelLookupField = excelReader.getFieldFromRow(rowNumberForLookup, conf.getTargetExcelColumnName());
-            writeToPDF.fillInTextField(excelLookupField, conf.getX(), conf.getY(), conf.getFontSize(), 500);
+            if (conf instanceof ConfigurationPrint) {
+                ConfigurationPrint confPrint = (ConfigurationPrint) conf;
+                String printString = confPrint.getPrintString();
+                writeToPDF.writeTextField(printString, confPrint.getFontSize(), confPrint.getX(), confPrint.getY(), 500);
+            }
+            else if (conf instanceof ConfigurationLookup) {
+                int rowNumberForLookup = excelReader.getRowIndex(inputNameLookupField.getText());
+                ConfigurationLookup confLookup = (ConfigurationLookup) conf;
+                String excelLookupResult = excelReader.lookupDetail(rowNumberForLookup, confLookup.getExcelTargetColumn());
+                writeToPDF.writeTextField(excelLookupResult, confLookup.getFontSize(), confLookup.getX(), confLookup.getY(), 500);
+            }
+            else if (conf instanceof ConfigurationCheckbox) {
+                int rowNumberForLookup = excelReader.getRowIndex(inputNameLookupField.getText());
+                ConfigurationCheckbox confCheckbox = (ConfigurationCheckbox) conf;
+                String excelLookupResult = excelReader.lookupDetail(rowNumberForLookup, confCheckbox.getExcelTargetColumn());
+                if (confCheckbox.setCheckboxSelection(excelLookupResult)) {
+                    // Note: Attempted an ASCII checkmark but wasn't printing so an X is used instead
+                    writeToPDF.writeTextField("X", confCheckbox.getFontSize(), confCheckbox.getX(), confCheckbox.getY(), 500);
+                }
+            }
         }
         writeToPDF.generatePdf();
         System.out.println("Successfully generated PDF:");
@@ -283,6 +238,50 @@ public class ExcelToPDF {
                         classFilepath + writeToPDF.getOutputPDF(),
                 "Successfully Composed PDF",
                 JOptionPane.PLAIN_MESSAGE);
+    }
+
+    /**
+     * Method for setting up the menu bar
+     * @param frame The main view of the application.
+     */
+    private void setMenubar(JFrame frame) {
+        // MacOS specific setting to have menu in the Mac menu bar
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+
+        // Creates new Menu Bar for the JFrame.
+        JMenuBar menuBar = new JMenuBar();
+
+        // Create File menu in the menubar
+        JMenu menuFile = new JMenu("File");
+        menuFile.setMnemonic(KeyEvent.VK_F);
+        menuFile.getAccessibleContext().setAccessibleDescription(
+                "File menu");
+        menuBar.add(menuFile);
+
+        // About menu item
+        JMenuItem menuItemAbout = new JMenuItem("About", KeyEvent.VK_A);
+        menuItemAbout.getAccessibleContext().setAccessibleDescription(
+                "About developer");
+        menuItemAbout.addActionListener((ActionEvent e) ->
+                JOptionPane.showMessageDialog(null,
+                        "Excel to PDF \n" +
+                                "https://github.com/JonesSagabaen/ExcelToPDF \n" +
+                                "\n" +
+                                "Developer: Jones Sagabaen \n" +
+                                "Build in November 10, 2017",
+                        "About",
+                        JOptionPane.PLAIN_MESSAGE));
+        menuFile.add(menuItemAbout);
+
+        // Exit menu item
+        JMenuItem menuItemExit = new JMenuItem("Exit", KeyEvent.VK_X);
+        menuItemExit.getAccessibleContext().setAccessibleDescription(
+                "Exit application");
+        menuItemExit.addActionListener((ActionEvent e) -> System.exit(0));
+        menuFile.add(menuItemExit);
+
+        // Add menubar to application
+        frame.setJMenuBar(menuBar);
     }
 
     /**
@@ -322,6 +321,14 @@ public class ExcelToPDF {
         pdfPanel.setBorder(titledPdfArea);
     }
 
+    /**
+     * Getter for all contents of this UI.
+     * @return              The JPanel containing all of the UI contents.
+     */
+    public JPanel getMainView() {
+        return mainView;
+    }
+
     {
 // GUI initializer generated by IntelliJ IDEA GUI Designer
 // >>> IMPORTANT!! <<<
@@ -337,12 +344,12 @@ public class ExcelToPDF {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        MainView = new JPanel();
-        MainView.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        MainView.setMinimumSize(new Dimension(-1, -1));
+        mainView = new JPanel();
+        mainView.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        mainView.setMinimumSize(new Dimension(-1, -1));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(3, 1, new Insets(30, 30, 30, 30), -1, -1));
-        MainView.add(panel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        mainView.add(panel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         excelPanel = new JPanel();
         excelPanel.setLayout(new GridLayoutManager(2, 1, new Insets(20, 20, 20, 20), -1, -1));
         panel1.add(excelPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -419,38 +426,6 @@ public class ExcelToPDF {
      * @noinspection ALL
      */
     public JComponent $$$getRootComponent$$$() {
-        return MainView;
+        return mainView;
     }
-
-    //    /**
-//     * DEPRECATED
-//     * Helper method for prompting for Excel columns preferences.
-//     *
-//     * @return The list of Excel columns that will be used to fill and create the preferences file.
-//     */
-//    private String[] getColumnPreferencesFromUser() {
-//        boolean interactionRequired = true;
-//        String[] parsedInput = {};
-//        while (interactionRequired) {
-//            String inputResponse = JOptionPane.showInputDialog(null,
-//                    "Please view your Excel document and indicate only those columns of interest.\n" +
-//                            "Note: Enter the column names separated with " + regexPlainText + " (" + regexChar
-//                            + ") between each.",
-//                    "Excel Columns",
-//                    JOptionPane.PLAIN_MESSAGE);
-//
-//            // Exit upon clicking the Cancel button
-//            if (inputResponse == null || "".equals(inputResponse))
-//                System.exit(0);
-//
-//            // Get input
-//            parsedInput = inputResponse.split("" + regexChar);
-//            // Exit the UI prompt loop because valid input was entered
-//            if (parsedInput.length > 1)
-//                interactionRequired = false;
-//        }
-//
-//        return parsedInput;
-//    }
-
 }

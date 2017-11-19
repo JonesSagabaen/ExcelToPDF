@@ -1,26 +1,23 @@
 package configuration;
 
+import java.util.Arrays;
+
 public class ExcelPDFConfiguration {
-
-    /**
-     * The target column name when reading from the provided Excel document.
-     */
-    private String targetExcelColumnName;
-
-    /**
-     * The x-coordinate needed for placing text on the PDF document.
-     */
-    private int x;
-
-    /**
-     * The y-coordinate needed for placing text on the PDF document.
-     */
-    private int y;
 
     /**
      * The font size for writing onto the PDF document.
      */
     private int fontSize;
+
+    /**
+     * The x coordinate location for where the writing annotations will be done.
+     */
+    private int coordinateX;
+
+    /**
+     * The y coordinate location for where the writing annotations will be done.
+     */
+    private int coordinateY;
 
     /**
      * Separator used for reading/writing configuration files.
@@ -33,61 +30,60 @@ public class ExcelPDFConfiguration {
     private final static String regexDelimiter = "\\|\\|\\|";
 
     /**
-     * The configuration file will save a set of information grouping Excel text with placement details for inserting
-     * into a PDF document.
-     * @param targetExcelColumnName     The name of the target column that is needed for when reading the Excel document.
-     * @param x                         The x-coordinate to place the text onto the PDF.  (Origin is bottom-left of PDF document.)
-     * @param y                         The y-coordinate to place the text onto the PDF.  (Origin is bottom-left of PDF document.)
-     * @param fontSize                  The font size of the text that is placed onto the PDF document.
+     * The delimiter value for separating configuration details in the configuration file.
+     * @return                          The delimiter value used by all configurations in this application.
      */
-    public ExcelPDFConfiguration(String targetExcelColumnName, int x, int y, int fontSize) {
-        this.targetExcelColumnName = targetExcelColumnName;
-        this.x = x;
-        this.y = y;
-        this.fontSize = fontSize;
+    public static String getDelimiter() {
+        return delimiter;
     }
 
     /**
-     * Get the Excel column name that is being read from.
-     * @return                          Name of the Excel column name being read from.
-     */
-    public String getTargetExcelColumnName() {
-        return targetExcelColumnName;
-    }
-
-    /**
-     * Get the x-coordinate for writing the desired text to the PDF document.
-     * @return                          The x-coordinate to write onto the PDF document.
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Get the x\y-coordinate for writing the desired text to the PDF document.
-     * @return                          The y-coordinate to write onto the PDF document.
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
-     * The font size of the text that will be written to the PDF document's text field.
-     * @return                          The font size of the text to be written into the PDF document's text field.
+     * Get the font size for this configuration.
+     * @return                          The font size.
      */
     public int getFontSize() {
         return fontSize;
     }
 
-    @Override
-    public String toString() {
-        return delimiter +
-                targetExcelColumnName + delimiter +
-                x + delimiter +
-                y + delimiter +
-                fontSize + delimiter;
+    /**
+     * Set the font size for this configuration.
+     * @param fontSize                  The font size.
+     */
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
     }
 
+    /**
+     * Get the x coordinate for writing text onto the PDF document.
+     * @return                          The x coordinate for where the writing annotations are to be done on the PDF document.
+     */
+    public int getX() {
+        return coordinateX;
+    }
+
+    /**
+     * Set the x coordinate for writing text onto the PDF document.
+     * @param x                          The x coordinate for where the writing annotations are to be done on the PDF document.
+     */
+    public void setX(int x) {
+        coordinateX = x;
+    }
+
+    /**
+     * Get the y coordinate for writing text onto the PDF document.
+     * @return                          The y coordinate for where the writing annotations are to be done on the PDF document.
+     */
+    public int getY() {
+        return coordinateY;
+    }
+
+    /**
+     * Set the y coordinate for writing text onto the PDF document.
+     * @param y                          The y coordinate for where the writing annotations are to be done on the PDF document.
+     */
+    public void setY(int y) {
+        coordinateY = y;
+    }
 
     /**
      * Convert a string representation of a configuration.ExcelPDFConfiguration object.
@@ -96,11 +92,15 @@ public class ExcelPDFConfiguration {
      */
     public static ExcelPDFConfiguration parseString(String input) {
         String[] parsedArray = input.split(regexDelimiter);
-        String columnName = parsedArray[1];
-        int x = Integer.parseInt(parsedArray[2]);
-        int y = Integer.parseInt(parsedArray[3]);
-        int fontSize = Integer.parseInt(parsedArray[4]);
-
-        return new ExcelPDFConfiguration(columnName, x, y, fontSize);
+        ConfigurationType configurationType = ConfigurationType.fromString(parsedArray[1]);
+        switch (configurationType) {
+            case PRINT:
+                return new ConfigurationPrint(Arrays.copyOfRange(parsedArray, 2, parsedArray.length));
+            case EXCEL_LOOKUP:
+                return new ConfigurationLookup(Arrays.copyOfRange(parsedArray, 2, parsedArray.length));
+            case CHECKBOX_SELECTION:
+                return new ConfigurationCheckbox(Arrays.copyOfRange(parsedArray, 2, parsedArray.length));
+        }
+        return null;
     }
 }

@@ -16,6 +16,23 @@ public class ConfigurationFile {
     private static String filename = "/user.conf";
 
     /**
+     * Get the entire collection of ExcelPDFConfigurations obtained from the configuration file.
+     * @return                          All ExcelPDFConfigurations configuration objects.
+     */
+    public ExcelPDFConfiguration[] getConfigurationFields() {
+        return configurationFields;
+    }
+
+    /**
+     * Getter for the configuration filename.
+     * Important for maintaining a standard format across the application.
+     * @return                      The configuration filename.
+     */
+    public static String getFilename() {
+        return filename;
+    }
+
+    /**
      * Read an existing configuration file.
      * Create an instance of this class so that configuration information is readily availble for the app to use.
      * @param sourceFilepath            Path of the existing configuration file to read.
@@ -59,34 +76,5 @@ public class ConfigurationFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Get the entire collection of ExcelPDFConfigurations obtained from the configuration file.
-     * @return                          All ExcelPDFConfigurations configuration objects.
-     */
-    public ExcelPDFConfiguration[] getConfigurationFields() {
-        return configurationFields;
-    }
-
-    /**
-     * Getter for the configuration filename.
-     * Important for maintaining a standard format across the application.
-     * @return                      The configuration filename.
-     */
-    public static String getFilename() {
-        return filename;
-    }
-
-    /**
-     * Temporary method for returning a list of target fields to read from processing the Excel file.
-     * @return                      A list of only the target columns to read when processing the Excel file.
-     */
-    public String[] getTargetFields() {
-        ArrayList<String> targetColumnsList = new ArrayList<>();
-        for (ExcelPDFConfiguration configurationField : configurationFields) {
-            targetColumnsList.add(configurationField.getTargetExcelColumnName());
-        }
-        return targetColumnsList.toArray(new String[targetColumnsList.size()]);
     }
 }
