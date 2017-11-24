@@ -1,9 +1,12 @@
-package gui.configuration;
+package gui.configuration.view;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
-public class LookupPanel {
+public class LookupPanel implements Observer {
     private JPanel MainView;
     private JPanel excelPanel;
     private JPanel pdfPanel;
@@ -18,7 +21,7 @@ public class LookupPanel {
     }
 
     /**
-     * Main method for passing this to other GUI classes.
+     * Front-end container for entire panel.
      * @return  The main panel of this entire form.
      */
     public JPanel getMainView() {
@@ -37,5 +40,15 @@ public class LookupPanel {
         TitledBorder titledPdfArea = new TitledBorder("PDF");
         pdfPanel.setBorder(titledPdfArea);
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        // TODO
+    }
+
+    public void addController(ActionListener controller){
+        System.out.println("[View LookupPanel] Adding controller");
+        removeButton.addActionListener(controller);
     }
 }
