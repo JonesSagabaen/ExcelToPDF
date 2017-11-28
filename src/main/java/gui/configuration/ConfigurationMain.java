@@ -14,16 +14,15 @@ public class ConfigurationMain {
         Configure configureView = new Configure();
         Controller controller = new Controller();
 
-        // Bind view to model
+        // Setup model
+        model.addController(controller);
         model.addObserver(configureView);
 
-        // Bind model and view to controller
+        // Setup controller
         controller.addModel(model);
         controller.addConfigureView(configureView);
 
-        // Bind controller to view
+        // Setup Configure view
         configureView.addController(controller);
     }
-
-    // TODO: Add logic for binding a newly created LookupPanel view to the model
 }

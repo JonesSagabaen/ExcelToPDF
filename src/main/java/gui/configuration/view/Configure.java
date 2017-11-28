@@ -60,9 +60,9 @@ public class Configure implements Observer {
     public void update(Observable o, Object arg) {
         System.out.println("[View Configure] Observable: " + o.getClass());
         System.out.println("[View Configure] Object passed: " + arg.getClass());
-
         System.out.println("ConfigurationRow ArrayList size: " + ((ArrayList) arg).size());
 
+        body.removeAll();
         ArrayList<LookupPanel> configurationRows = (ArrayList) arg;
         for (LookupPanel configurationRow : configurationRows) {
             body.add(configurationRow.getMainView());

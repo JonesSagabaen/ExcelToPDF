@@ -44,7 +44,8 @@ public class LookupPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        // TODO
+        System.out.println("[View LookupPanel] Observable: " + o.getClass());
+        System.out.println("[View LookupPanel] Object passed: " + arg.getClass());
     }
 
     public void addController(ActionListener controller){
