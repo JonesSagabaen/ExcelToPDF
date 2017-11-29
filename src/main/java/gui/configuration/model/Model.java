@@ -5,6 +5,7 @@ import gui.configuration.view.LookupPanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 
 public class Model extends Observable {
@@ -32,10 +33,13 @@ public class Model extends Observable {
     }
 
     public void deleteConfigurationRow(JPanel lookupPanel) {
-        for (LookupPanel configurationRow : configurationRows) {
-            JPanel modelConfRows = configurationRow.getMainView();
-            if (modelConfRows.equals(lookupPanel))
-                configurationRows.remove(configurationRow);
+        Iterator<LookupPanel> iter = configurationRows.iterator();
+        while (iter.hasNext()) {
+            JPanel confRow = iter.next().getMainView();
+            if (confRow.equals(lookupPanel)) {
+                iter.remove();
+                break;
+            }
         }
 
         // Needed for Model to communicate to Views' update() method
