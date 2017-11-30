@@ -13,14 +13,27 @@ public class Controller implements ActionListener {
 
     private Model model;
 
-    private Configure configureView;                    // Complains that view is not used by the MVC model uses it
+    /**
+     * Reference to the main Configure view.
+     * IntelliJ complains it's not used locally but the inherited methods of the MVC use it.
+     */
+    private Configure configureView;
 
-    private ArrayList<LookupPanel> lookupPanelViews;    // Complains that view is not used by the MVC model uses it
+    /**
+     * Reference to the main Lookup panel configuration views.
+     * IntelliJ complains it's not used locally but the inherited methods of the MVC use it.
+     */
+    private ArrayList<LookupPanel> lookupPanelViews;
 
     public Controller() {
         lookupPanelViews = new ArrayList<>();
     }
 
+    /**
+     * Called when the hooked up buttons, in the views, are pressed.  The buttons are hooked up by the views'
+     * addController() method which adds the action listener.
+     * @param e     The action event detected from the button with its action listener.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("[Controller] Acting on Model");
@@ -30,6 +43,7 @@ public class Controller implements ActionListener {
             model.addConfigurationRow();
         }
         else if (e.getActionCommand().equals("-")) {
+            // Get the main parent JPanel of the button that was pressed so the model can identify which row to delete.
             JPanel buttonParent = (JPanel) ((JButton) e.getSource()).getParent().getParent().getParent();
             System.out.println("JButton parent: " + buttonParent);
             model.deleteConfigurationRow(buttonParent);

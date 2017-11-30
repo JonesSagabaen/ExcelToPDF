@@ -21,17 +21,25 @@ public class Model extends Observable {
         configurationRows = new ArrayList<>();
     }
 
+    /**
+     * Update model by adding a configuration row of type Lookup.
+     * After the change has been made to this model, the observers are notified by invoking the view's update() method.
+     */
     public void addConfigurationRow() {
         LookupPanel newLookupPanel = new LookupPanel();
         newLookupPanel.addController(controller);
         controller.addLookupPanelViews(newLookupPanel);
         configurationRows.add(newLookupPanel);
 
-        // Needed for Model to communicate to Views' update() method
+        // Notify the view observers
         setChanged();
         notifyObservers(configurationRows);
     }
 
+    /**
+     * Update model by deleting a configuration row of type Lookup.
+     * After the change has been made to this model, the observers are notified by invoking the view's update() method.
+     */
     public void deleteConfigurationRow(JPanel lookupPanel) {
         Iterator<LookupPanel> iter = configurationRows.iterator();
         while (iter.hasNext()) {
@@ -42,7 +50,7 @@ public class Model extends Observable {
             }
         }
 
-        // Needed for Model to communicate to Views' update() method
+        // Notify the view observers
         setChanged();
         notifyObservers(configurationRows);
     }

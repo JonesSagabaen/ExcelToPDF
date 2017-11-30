@@ -3,10 +3,8 @@ package gui.configuration.view;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
 
-public class LookupPanel implements Observer {
+public class LookupPanel {
     private JPanel MainView;
     private JPanel excelPanel;
     private JPanel pdfPanel;
@@ -40,12 +38,6 @@ public class LookupPanel implements Observer {
         TitledBorder titledPdfArea = new TitledBorder("PDF");
         pdfPanel.setBorder(titledPdfArea);
 
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        System.out.println("[View LookupPanel] Observable: " + o.getClass());
-        System.out.println("[View LookupPanel] Object passed: " + arg.getClass());
     }
 
     public void addController(ActionListener controller){

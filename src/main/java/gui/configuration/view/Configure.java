@@ -56,12 +56,20 @@ public class Configure implements Observer {
         body.add(addButtonPanel);
     }
 
+    /**
+     * Method needed for implementing the Observer class.  The model of the MVC model invokes this method when
+     * it executes its notifyObservers() method.
+     * @param o     The model that invokes this method.
+     * @param arg   The object that is being passed from the model to be used by this method.
+     */
     @Override
     public void update(Observable o, Object arg) {
         System.out.println("[View Configure] Observable: " + o.getClass());
         System.out.println("[View Configure] Object passed: " + arg.getClass());
         System.out.println("ConfigurationRow ArrayList size: " + ((ArrayList) arg).size());
 
+        // Rebuild all of the contents of the body panel which contains the visual list of
+        // all configuration rows to display.
         body.removeAll();
         ArrayList<LookupPanel> configurationRows = (ArrayList) arg;
         for (LookupPanel configurationRow : configurationRows) {
