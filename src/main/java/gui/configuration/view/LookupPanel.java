@@ -8,12 +8,11 @@ public class LookupPanel {
     private JPanel MainView;
     private JPanel excelPanel;
     private JPanel pdfPanel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
+    private JTextField fontSizeField;
+    private JTextField columnNameField;
+    private JTextField xCoordinateField;
+    private JTextField yCoordinateField;
     private JButton removeButton;
-
     public LookupPanel() {
         setFurtherUICustomizations();
     }
@@ -24,6 +23,22 @@ public class LookupPanel {
      */
     public JPanel getMainView() {
         return MainView;
+    }
+
+    public String getFontSizeFieldContent() {
+        return fontSizeField.getText();
+    }
+
+    public String getColumnNameFieldContent() {
+        return columnNameField.getText();
+    }
+
+    public String getXCoordinateFieldContent() {
+        return xCoordinateField.getText();
+    }
+
+    public String getYCoordinateFieldContent() {
+        return yCoordinateField.getText();
     }
 
     /**

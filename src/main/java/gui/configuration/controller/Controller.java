@@ -1,5 +1,8 @@
 package gui.configuration.controller;
 
+import configuration.ConfigurationFile;
+import configuration.ConfigurationLookup;
+import configuration.ExcelPDFConfiguration;
 import gui.configuration.model.Model;
 import gui.configuration.view.Configure;
 import gui.configuration.view.LookupPanel;
@@ -7,6 +10,7 @@ import gui.configuration.view.LookupPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 public class Controller implements ActionListener {
@@ -47,6 +51,24 @@ public class Controller implements ActionListener {
             JPanel buttonParent = (JPanel) ((JButton) e.getSource()).getParent().getParent().getParent();
             System.out.println("JButton parent: " + buttonParent);
             model.deleteConfigurationRow(buttonParent);
+        }
+        else if (e.getActionCommand().equals("Submit")) {
+            System.out.println("Creating configuration file");
+
+            // TODO: Temporarily write to a test file
+//            String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources" + ConfigurationFile.getFilenameStandardFormat();
+            String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources/configCreatorTest.conf";
+
+            ArrayList<ExcelPDFConfiguration> configurationsSet = new ArrayList<>();
+            for (LookupPanel lookupPanelView : lookupPanelViews) {
+                System.out.println("DEBUG: Number of LookupPanels are " + lookupPanelViews.size());
+                // Go through each configuration panel, convert to ExcelPDFConfiguration, add to configurationsSet list
+                String[] buildLookupConfig = {lookupPanelView.getFontSizeFieldContent(), lookupPanelView.getColumnNameFieldContent(), lookupPanelView.getXCoordinateFieldContent(), lookupPanelView.getYCoordinateFieldContent()};
+                ConfigurationLookup configToAdd = new ConfigurationLookup(buildLookupConfig);
+                configurationsSet.add(configToAdd);
+            }
+            ConfigurationFile.createConfigurationFile(configurationFileCreateFilepath, configurationsSet.toArray(new ExcelPDFConfiguration[configurationsSet.size()]));
+            System.out.println("Configuration file successfully created");
         }
         else
             System.out.println("[Controller] Error with action event " + e.getActionCommand());

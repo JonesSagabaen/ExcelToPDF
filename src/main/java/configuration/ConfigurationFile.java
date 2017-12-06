@@ -11,9 +11,9 @@ public class ConfigurationFile {
     private ExcelPDFConfiguration[] configurationFields;
 
     /**
-     * The format of the configuration filename
+     * The standard format of the configuration filename
      */
-    private static String filename = "/user.conf";
+    private static String filenameStandardFormat = "/user.conf";
 
     /**
      * Get the entire collection of ExcelPDFConfigurations obtained from the configuration file.
@@ -28,8 +28,8 @@ public class ConfigurationFile {
      * Important for maintaining a standard format across the application.
      * @return                      The configuration filename.
      */
-    public static String getFilename() {
-        return filename;
+    public static String getFilenameStandardFormat() {
+        return filenameStandardFormat;
     }
 
     /**
@@ -53,9 +53,7 @@ public class ConfigurationFile {
     }
 
     /**
-     * Write a configuration file.
-     * If no configuration file is found, prompt the user to enter the configuration information.  That information
-     * will then be used to create an instance of this class and to also write a configuration file for future use.
+     * Assign newly created configuration properties and then write configuration file.
      * @param destinationFilepath       Path to write the user configuration file to.
      * @param excelPDFConfigurations    The set of configuration fields that will be saved into the configuration file.
      */
@@ -63,6 +61,16 @@ public class ConfigurationFile {
         // Assign provided list directly into this class' columnsToRead
         configurationFields = excelPDFConfigurations;
 
+        // Create the configuration file
+        createConfigurationFile(destinationFilepath, excelPDFConfigurations);
+    }
+
+    /**
+     * Write a configuration file.
+     * @param destinationFilepath       Path to write the user configuration file to.
+     * @param excelPDFConfigurations    The set of configuration fields that will be saved into the configuration file.
+     */
+    public static void createConfigurationFile(String destinationFilepath, ExcelPDFConfiguration[] excelPDFConfigurations) {
         // Create a configuration file for future use
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(destinationFilepath))) {
             String fileContent = "";

@@ -14,14 +14,14 @@ public class ConfigurationFileTest {
 
     @Test
     public void readPrint() throws Exception {
-        ConfigurationFile configurationFile = new ConfigurationFile(configurationFilepath + ConfigurationFile.getFilename());
+        ConfigurationFile configurationFile = new ConfigurationFile(configurationFilepath + ConfigurationFile.getFilenameStandardFormat());
         ExcelPDFConfiguration[] actualConfigurationsSet = configurationFile.getConfigurationFields();
         Assert.assertEquals("111217", ((ConfigurationPrint) actualConfigurationsSet[0]).getPrintString());
     }
 
     @Test
     public void readLookup() throws Exception {
-        ConfigurationFile configurationFile = new ConfigurationFile(configurationFilepath + ConfigurationFile.getFilename());
+        ConfigurationFile configurationFile = new ConfigurationFile(configurationFilepath + ConfigurationFile.getFilenameStandardFormat());
         ExcelPDFConfiguration[] actualConfigurationsSet = configurationFile.getConfigurationFields();
         Assert.assertEquals("name", ((ConfigurationLookup) actualConfigurationsSet[1]).getExcelTargetColumn());
         Assert.assertEquals("id number", ((ConfigurationLookup) actualConfigurationsSet[2]).getExcelTargetColumn());
@@ -31,7 +31,7 @@ public class ConfigurationFileTest {
 
     @Test
     public void readCheckbox() throws Exception {
-        ConfigurationFile configurationFile = new ConfigurationFile(configurationFilepath + ConfigurationFile.getFilename());
+        ConfigurationFile configurationFile = new ConfigurationFile(configurationFilepath + ConfigurationFile.getFilenameStandardFormat());
         ExcelPDFConfiguration[] actualConfigurationsSet = configurationFile.getConfigurationFields();
         ConfigurationCheckbox confCheckbox = (ConfigurationCheckbox) actualConfigurationsSet[4];
         confCheckbox.setCheckboxSelection("yes");
@@ -44,7 +44,7 @@ public class ConfigurationFileTest {
     public void writeReadFile() throws Exception {
         final String testDirectory = "out/test/resources";
         // Perform cleanup before running test
-        File fileToDelete = new File(testDirectory + ConfigurationFile.getFilename());
+        File fileToDelete = new File(testDirectory + ConfigurationFile.getFilenameStandardFormat());
         if (!fileToDelete.delete()) {
             System.out.println("No file to delete.");
         }
@@ -57,11 +57,11 @@ public class ConfigurationFileTest {
         String[] configConfCheckbox = {"20", "still employed", "yes", "210", "400", "no", "250", "400"};
         ExcelPDFConfiguration config3 = new ConfigurationCheckbox(configConfCheckbox);
         ExcelPDFConfiguration[] configurationsSet = {config1, config2, config3};
-        new ConfigurationFile(testDirectory + ConfigurationFile.getFilename(), configurationsSet);
+        new ConfigurationFile(testDirectory + ConfigurationFile.getFilenameStandardFormat(), configurationsSet);
 
         // Read created configuration file
         String[] actualConfigurationSetAsStrings = null;
-        try (BufferedReader reader = new BufferedReader(new FileReader(testDirectory + ConfigurationFile.getFilename()))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(testDirectory + ConfigurationFile.getFilenameStandardFormat()))) {
             ArrayList<String> configurationsAsString = new ArrayList<>();
             String currentLine;
             while ((currentLine = reader.readLine()) != null) {

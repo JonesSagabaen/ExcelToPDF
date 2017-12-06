@@ -110,7 +110,7 @@ public class Main {
      */
     private void initializeConfigurationFile() {
         if (ENABLE_TEST_CONFIGURATION_FILE) {
-            String testConfFileFilepath = classFilepath + "/src/test/resources" + ConfigurationFile.getFilename();
+            String testConfFileFilepath = classFilepath + "/src/test/resources" + ConfigurationFile.getFilenameStandardFormat();
             File testConfFile = new File(testConfFileFilepath);
             System.out.println("Test configuration file in use:");
             System.out.println(testConfFile);
@@ -119,7 +119,7 @@ public class Main {
         }
 
         // Check for expected configuration file in the root directory of this application
-        String confFileFilepath = classFilepath + ConfigurationFile.getFilename();
+        String confFileFilepath = classFilepath + ConfigurationFile.getFilenameStandardFormat();
         File confFile = new File(confFileFilepath);
         if (confFile.exists()) {
             System.out.println("Configuration file found:");

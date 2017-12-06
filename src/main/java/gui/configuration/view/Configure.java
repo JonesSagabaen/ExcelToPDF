@@ -17,6 +17,7 @@ public class Configure implements Observer {
     private JTextArea headerDescription;
     private JPanel bodyContainer;
     private JPanel body;
+    private JButton submitButton;
 
     private Model model;
 
@@ -48,7 +49,7 @@ public class Configure implements Observer {
         //       in order to prevent a NullPointerException at runtime.
         body.setLayout(new BoxLayout(body, BoxLayout.PAGE_AXIS));
 
-        // Add an add button to the bottom of the list of configurations
+        // Add an Add button to the bottom of the list of configurations
         addButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         addButton = new JButton();
         addButton.setText("+");
@@ -83,6 +84,7 @@ public class Configure implements Observer {
     public void addController(ActionListener controller){
         System.out.println("[View Configure] Adding controller");
         addButton.addActionListener(controller);
+        submitButton.addActionListener(controller);
     }
 
     public static class CloseListener extends WindowAdapter {
