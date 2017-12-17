@@ -72,8 +72,8 @@ public class Configure implements Observer {
         // Rebuild all of the contents of the body panel which contains the visual list of
         // all configuration rows to display.
         body.removeAll();
-        ArrayList<LookupPanel> configurationRows = (ArrayList) arg;
-        for (LookupPanel configurationRow : configurationRows) {
+        ArrayList<ConfigurationRow> configurationRows = (ArrayList) arg;
+        for (ConfigurationRow configurationRow : configurationRows) {
             body.add(configurationRow.getMainView());
         }
         body.add(addButtonPanel);

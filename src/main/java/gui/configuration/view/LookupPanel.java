@@ -2,7 +2,6 @@ package gui.configuration.view;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import java.awt.event.ActionListener;
 
 public class LookupPanel {
     private JPanel MainView;
@@ -12,7 +11,7 @@ public class LookupPanel {
     private JTextField columnNameField;
     private JTextField xCoordinateField;
     private JTextField yCoordinateField;
-    private JButton removeButton;
+
     public LookupPanel() {
         setFurtherUICustomizations();
     }
@@ -55,8 +54,4 @@ public class LookupPanel {
 
     }
 
-    public void addController(ActionListener controller){
-        System.out.println("[View LookupPanel] Adding controller");
-        removeButton.addActionListener(controller);
-    }
 }

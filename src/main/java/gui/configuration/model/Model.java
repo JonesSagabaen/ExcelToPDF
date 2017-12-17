@@ -1,7 +1,7 @@
 package gui.configuration.model;
 
 import gui.configuration.controller.Controller;
-import gui.configuration.view.LookupPanel;
+import gui.configuration.view.ConfigurationRow;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -15,7 +15,8 @@ public class Model extends Observable {
     /**
      * List of configuration rows to be displayed.
      */
-    private ArrayList<LookupPanel> configurationRows;
+//    private ArrayList<LookupPanel> configurationRows;
+    private ArrayList<ConfigurationRow> configurationRows;
 
     public Model() {
         configurationRows = new ArrayList<>();
@@ -26,10 +27,10 @@ public class Model extends Observable {
      * After the change has been made to this model, the observers are notified by invoking the view's update() method.
      */
     public void addConfigurationRow() {
-        LookupPanel newLookupPanel = new LookupPanel();
-        newLookupPanel.addController(controller);
-        controller.addLookupPanelViews(newLookupPanel);
-        configurationRows.add(newLookupPanel);
+        ConfigurationRow newConfRow = new ConfigurationRow();
+        newConfRow.addController(controller);
+        controller.addConfigurationRowViews(newConfRow);
+        configurationRows.add(newConfRow);
 
         // Notify the view observers
         setChanged();
@@ -41,7 +42,7 @@ public class Model extends Observable {
      * After the change has been made to this model, the observers are notified by invoking the view's update() method.
      */
     public void deleteConfigurationRow(JPanel lookupPanel) {
-        Iterator<LookupPanel> iter = configurationRows.iterator();
+        Iterator<ConfigurationRow> iter = configurationRows.iterator();
         while (iter.hasNext()) {
             JPanel confRow = iter.next().getMainView();
             if (confRow.equals(lookupPanel)) {
