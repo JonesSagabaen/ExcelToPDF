@@ -6,7 +6,6 @@ import configuration.ExcelPDFConfiguration;
 import gui.configuration.model.Model;
 import gui.configuration.view.ConfigurationRow;
 import gui.configuration.view.Configure;
-import gui.configuration.view.LookupPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -30,15 +29,8 @@ public class Controller implements ActionListener {
      */
     private ArrayList<ConfigurationRow> configurationRowViews;
 
-    /**
-     * Reference to the Lookup panel views.
-     * IntelliJ complains it's not used locally but the inherited methods of the MVC use it.
-     */
-    private ArrayList<LookupPanel> lookupPanelViews;
-
     public Controller() {
         configurationRowViews = new ArrayList<>();
-        lookupPanelViews = new ArrayList<>();
     }
 
     /**
@@ -68,15 +60,25 @@ public class Controller implements ActionListener {
             String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources/configCreatorTest.conf";
 
             ArrayList<ExcelPDFConfiguration> configurationsSet = new ArrayList<>();
-
-            // TODO: This logic no longer works because LookupPanel no longer directly observed by controller
-            // Try to have ConfigurationRow pass it's configPanel and then handle reading LookupPanel contents.
-            for (LookupPanel lookupPanelView : lookupPanelViews) {
-                System.out.println("DEBUG: Number of LookupPanels are " + lookupPanelViews.size());
+            for (ConfigurationRow rows : configurationRowViews) {
+                System.out.println("[DEBUG] Number of ConfigurationRows: " + configurationRowViews.size());
                 // Go through each configuration panel, convert to ExcelPDFConfiguration, add to configurationsSet list
-                String[] buildLookupConfig = {lookupPanelView.getFontSizeFieldContent(), lookupPanelView.getColumnNameFieldContent(), lookupPanelView.getXCoordinateFieldContent(), lookupPanelView.getYCoordinateFieldContent()};
-                ConfigurationLookup configToAdd = new ConfigurationLookup(buildLookupConfig);
-                configurationsSet.add(configToAdd);
+                String comboBoxSelectedItem = rows.getComboBoxSelectedItem();
+                switch (comboBoxSelectedItem) {
+                    case "Print":
+                        // TODO
+                        break;
+                    case "Lookup":
+                        String[] configArray = rows.generateConfigArray();
+                        ConfigurationLookup configToAdd = new ConfigurationLookup(configArray);
+                        configurationsSet.add(configToAdd);
+                        break;
+                    case "Checkbox":
+                        // TODO
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unknown ComboxBox selection chosen");
+                }
             }
             ConfigurationFile.createConfigurationFile(configurationFileCreateFilepath, configurationsSet.toArray(new ExcelPDFConfiguration[configurationsSet.size()]));
             System.out.println("Configuration file successfully created");
@@ -98,10 +100,5 @@ public class Controller implements ActionListener {
     public void addConfigurationRowViews(ConfigurationRow view){
         System.out.println("[Controller] Adding ConfigurationRow view");
         configurationRowViews.add(view);
-    }
-
-    public void addLookupPanelViews(LookupPanel view){
-        System.out.println("[Controller] Adding LookupPanel view");
-        lookupPanelViews.add(view);
     }
 }

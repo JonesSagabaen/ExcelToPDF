@@ -15,34 +15,40 @@ public class ConfigurationRow {
 
     private Controller controller;
 
+    private Object configObject;
+
     public ConfigurationRow() {
         configTypeComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-//                System.out.println("[DEBUG] ComboBox item: " + e.getItem());
-//                System.out.println("[DEBUG] ComboBox state: " + e.getStateChange());
+                //System.out.println("[DEBUG] ComboBox item: " + e.getItem());
+                //System.out.println("[DEBUG] ComboBox state: " + e.getStateChange());
                 if (e.getStateChange() == 1) {
-                    if (e.getItem().equals("Print")) {
-                        configPanel.removeAll();
-                        // TODO
-                        configPanel.revalidate();
-                        configPanel.repaint();
+                    String selectedItem = e.getItem().toString();
+                    switch (selectedItem) {
+                        case "Print":
+                            configPanel.removeAll();
+                            // TODO
+                            configPanel.revalidate();
+                            configPanel.repaint();
+                            break;
+                        case "Lookup":
+                            configPanel.removeAll();
+                            LookupPanel newLookupPanel = new LookupPanel();
+                            configObject = newLookupPanel;
+                            configPanel.add(newLookupPanel.getMainView());
+                            configPanel.revalidate();
+                            configPanel.repaint();
+                            break;
+                        case "Checkbox":
+                            configPanel.removeAll();
+                            // TODO
+                            configPanel.revalidate();
+                            configPanel.repaint();
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Unknown ComboxBox selection chosen");
                     }
-                    else if (e.getItem().equals("Lookup")) {
-                        configPanel.removeAll();
-                        LookupPanel newLookupPanel = new LookupPanel();
-                        configPanel.add(newLookupPanel.getMainView());
-                        configPanel.revalidate();
-                        configPanel.repaint();
-                    }
-                    else if (e.getItem().equals("Checkbox")) {
-                        configPanel.removeAll();
-                        // TODO
-                        configPanel.revalidate();
-                        configPanel.repaint();
-                    }
-                    else
-                        throw new IllegalArgumentException("Unknown ComboxBox selection chosen");
                 }
             }
         });
@@ -56,12 +62,36 @@ public class ConfigurationRow {
         return MainView;
     }
 
-    private JPanel getConfigPanel() {
-        return configPanel;
+    /**
+     * Get the currently selected configuration type.
+     * @return  Selected item from configuration ComboBox.
+     */
+    public String getComboBoxSelectedItem() {
+        return configTypeComboBox.getSelectedItem().toString();
     }
 
-    private void setConfigPanel(JPanel configPanel) {
-        this.configPanel = configPanel;
+    /**
+     * Package whatever configuration input by the user and pass it on for generating the configuration file.
+     * @return  An array ready to be used for generating configuration file.
+     */
+    public String[] generateConfigArray() {
+        String[] outputArray = {};
+        String selectComboOption = getComboBoxSelectedItem();
+        switch (selectComboOption) {
+            case "Print":
+                // TODO
+                break;
+            case "Lookup":
+                LookupPanel lookupPanelView = (LookupPanel) configObject;
+                outputArray = new String[]{lookupPanelView.getFontSizeFieldContent(), lookupPanelView.getColumnNameFieldContent(), lookupPanelView.getXCoordinateFieldContent(), lookupPanelView.getYCoordinateFieldContent()};
+                break;
+            case "Checkbox":
+                // TODO
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown ComboxBox selection chosen");
+        }
+        return outputArray;
     }
 
     public void addController(ActionListener controller){
