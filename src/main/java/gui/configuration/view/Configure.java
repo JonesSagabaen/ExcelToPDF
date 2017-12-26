@@ -67,7 +67,7 @@ public class Configure implements Observer {
     public void update(Observable o, Object arg) {
         System.out.println("[View Configure] Observable: " + o.getClass());
         System.out.println("[View Configure] Object passed: " + arg.getClass());
-        System.out.println("ConfigurationRow ArrayList size: " + ((ArrayList) arg).size());
+        System.out.println("[View Configure] Object content size: " + ((ArrayList) arg).size());
 
         // Rebuild all of the contents of the body panel which contains the visual list of
         // all configuration rows to display.

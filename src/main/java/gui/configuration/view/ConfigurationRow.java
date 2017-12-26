@@ -18,6 +18,12 @@ public class ConfigurationRow {
     private Object configObject;
 
     public ConfigurationRow() {
+        // Initilize contents
+        PrintPanel newPrintPanel = new PrintPanel();
+        configObject = newPrintPanel;
+        configPanel.add(newPrintPanel.getMainView());
+
+        // Action listener for the selection type drop-down
         configTypeComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -28,7 +34,9 @@ public class ConfigurationRow {
                     switch (selectedItem) {
                         case "Print":
                             configPanel.removeAll();
-                            // TODO
+                            PrintPanel newPrintPanel = new PrintPanel();
+                            configObject = newPrintPanel;
+                            configPanel.add(newPrintPanel.getMainView());
                             configPanel.revalidate();
                             configPanel.repaint();
                             break;
@@ -79,7 +87,8 @@ public class ConfigurationRow {
         String selectComboOption = getComboBoxSelectedItem();
         switch (selectComboOption) {
             case "Print":
-                // TODO
+                PrintPanel printPanelView = (PrintPanel) configObject;
+                outputArray = new String[]{printPanelView.getFontSizeFieldContent(), printPanelView.getPrintTextFieldContent(), printPanelView.getXCoordinateFieldContent(), printPanelView.getYCoordinateFieldContent()};
                 break;
             case "Lookup":
                 LookupPanel lookupPanelView = (LookupPanel) configObject;

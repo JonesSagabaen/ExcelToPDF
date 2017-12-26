@@ -2,6 +2,7 @@ package gui.configuration.controller;
 
 import configuration.ConfigurationFile;
 import configuration.ConfigurationLookup;
+import configuration.ConfigurationPrint;
 import configuration.ExcelPDFConfiguration;
 import gui.configuration.model.Model;
 import gui.configuration.view.ConfigurationRow;
@@ -22,16 +23,6 @@ public class Controller implements ActionListener {
      * IntelliJ complains it's not used locally but the inherited methods of the MVC use it.
      */
     private Configure configureView;
-
-    /**
-     * Reference to the ConfigurationRow panel views.
-     * IntelliJ complains it's not used locally but the inherited methods of the MVC use it.
-     */
-    private ArrayList<ConfigurationRow> configurationRowViews;
-
-    public Controller() {
-        configurationRowViews = new ArrayList<>();
-    }
 
     /**
      * Called when the hooked up buttons, in the views, are pressed.  The buttons are hooked up by the views'
@@ -60,18 +51,20 @@ public class Controller implements ActionListener {
             String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources/configCreatorTest.conf";
 
             ArrayList<ExcelPDFConfiguration> configurationsSet = new ArrayList<>();
-            for (ConfigurationRow rows : configurationRowViews) {
-                System.out.println("[DEBUG] Number of ConfigurationRows: " + configurationRowViews.size());
+            System.out.println("[Controller] Number of ConfigurationRows from model: " + model.getConfigurationRows().length);
+            for (ConfigurationRow rows : model.getConfigurationRows()) {
                 // Go through each configuration panel, convert to ExcelPDFConfiguration, add to configurationsSet list
                 String comboBoxSelectedItem = rows.getComboBoxSelectedItem();
                 switch (comboBoxSelectedItem) {
                     case "Print":
-                        // TODO
+                        String[] printConfigArray = rows.generateConfigArray();
+                        ConfigurationPrint configPrintToAdd = new ConfigurationPrint(printConfigArray);
+                        configurationsSet.add(configPrintToAdd);
                         break;
                     case "Lookup":
-                        String[] configArray = rows.generateConfigArray();
-                        ConfigurationLookup configToAdd = new ConfigurationLookup(configArray);
-                        configurationsSet.add(configToAdd);
+                        String[] lookupConfigArray = rows.generateConfigArray();
+                        ConfigurationLookup configLookupToAdd = new ConfigurationLookup(lookupConfigArray);
+                        configurationsSet.add(configLookupToAdd);
                         break;
                     case "Checkbox":
                         // TODO
@@ -97,8 +90,4 @@ public class Controller implements ActionListener {
         this.configureView = view;
     }
 
-    public void addConfigurationRowViews(ConfigurationRow view){
-        System.out.println("[Controller] Adding ConfigurationRow view");
-        configurationRowViews.add(view);
-    }
 }

@@ -29,7 +29,6 @@ public class Model extends Observable {
     public void addConfigurationRow() {
         ConfigurationRow newConfRow = new ConfigurationRow();
         newConfRow.addController(controller);
-        controller.addConfigurationRowViews(newConfRow);
         configurationRows.add(newConfRow);
 
         // Notify the view observers
@@ -54,6 +53,14 @@ public class Model extends Observable {
         // Notify the view observers
         setChanged();
         notifyObservers(configurationRows);
+    }
+
+    /**
+     * Get the list of configuration rows that is managed and tracked in the model.
+     * @return  The list of configuration rows displayed in this configuration UI.
+     */
+    public ConfigurationRow[] getConfigurationRows() {
+        return configurationRows.toArray(new ConfigurationRow[configurationRows.size()]);
     }
 
     public void addController(Controller controller){
