@@ -34,7 +34,7 @@ public class Configure implements Observer {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         initializeAddPanel();
         frame.setContentPane(MainView);
-        frame.setSize(600, 500);
+        frame.setSize(850, 600);
         frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
