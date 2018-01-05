@@ -90,13 +90,11 @@ public class ConfigurationRow {
         switch (selectComboOption) {
             case "Print":
                 PrintPanel printPanelView = (PrintPanel) configObject;
-                // TODO: Move this logic over to PrintPanel
-                outputArray = new String[]{printPanelView.getFontSizeFieldContent(), printPanelView.getPrintTextFieldContent(), printPanelView.getXCoordinateFieldContent(), printPanelView.getYCoordinateFieldContent()};
+                outputArray = printPanelView.stringConfig();
                 break;
             case "Lookup":
                 LookupPanel lookupPanelView = (LookupPanel) configObject;
-                // TODO: Move this logic over to LookupPanel
-                outputArray = new String[]{lookupPanelView.getFontSizeFieldContent(), lookupPanelView.getColumnNameFieldContent(), lookupPanelView.getXCoordinateFieldContent(), lookupPanelView.getYCoordinateFieldContent()};
+                outputArray = lookupPanelView.stringConfig();
                 break;
             case "Checkbox":
                 CheckboxPanel checkboxPanelView = (CheckboxPanel) configObject;

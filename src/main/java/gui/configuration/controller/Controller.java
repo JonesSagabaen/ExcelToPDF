@@ -73,7 +73,12 @@ public class Controller implements ActionListener {
                 }
             }
             ConfigurationFile.createConfigurationFile(configurationFileCreateFilepath, configurationsSet.toArray(new ExcelPDFConfiguration[configurationsSet.size()]));
-            System.out.println("Configuration file successfully created");
+            System.out.println("[Controller] Configuration file successfully created: " + configurationFileCreateFilepath);
+
+            JOptionPane.showMessageDialog(null,
+                    "Configuration file generated: \n" + configurationFileCreateFilepath,
+                    "Successfully Composed Configuration File",
+                    JOptionPane.PLAIN_MESSAGE);
         }
         else
             System.out.println("[Controller] Error with action event " + e.getActionCommand());

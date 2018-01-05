@@ -17,30 +17,6 @@ public class PrintPanel {
     }
 
     /**
-     * Front-end container for entire panel.
-     * @return  The main panel of this entire form.
-     */
-    public JPanel getMainView() {
-        return MainView;
-    }
-
-    public String getFontSizeFieldContent() {
-        return fontSizeField.getText();
-    }
-
-    public String getPrintTextFieldContent() {
-        return printTextField.getText();
-    }
-
-    public String getXCoordinateFieldContent() {
-        return xCoordinateField.getText();
-    }
-
-    public String getYCoordinateFieldContent() {
-        return yCoordinateField.getText();
-    }
-
-    /**
      * All further UI customizations are contained here where commenting out this method will still run the app
      * but without these customizations.
      */
@@ -54,4 +30,19 @@ public class PrintPanel {
 
     }
 
+    /**
+     * Front-end container for entire panel.
+     * @return  The main panel of this entire form.
+     */
+    public JPanel getMainView() {
+        return MainView;
+    }
+
+    /**
+     * Construct the string representation of this configuration type.
+     * @return  String array of this PrintPanel configuration type.
+     */
+    public String[] stringConfig() {
+        return new String[]{fontSizeField.getText(), printTextField.getText(), xCoordinateField.getText(), yCoordinateField.getText()};
+    }
 }

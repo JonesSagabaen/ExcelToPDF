@@ -31,26 +31,6 @@ public class CheckboxPanelRow {
     }
 
     /**
-     * Front-end container for entire panel.
-     * @return  The main panel of this entire form.
-     */
-    public JPanel getMainView() {
-        return MainView;
-    }
-
-    public String getConditionTextFieldContent() {
-        return conditionTextField.getText();
-    }
-
-    public String getXCoordinateFieldContent() {
-        return xCoordinateField.getText();
-    }
-
-    public String getYCoordinateFieldContent() {
-        return yCoordinateField.getText();
-    }
-
-    /**
      * All further UI customizations are contained here where commenting out this method will still run the app
      * but without these customizations.
      */
@@ -63,4 +43,21 @@ public class CheckboxPanelRow {
         pdfPanel.setBorder(titledPdfArea);
     }
 
+    /**
+     * Front-end container for entire panel.
+     * @return  The main panel of this entire form.
+     */
+    public JPanel getMainView() { return MainView; }
+
+    public String getConditionTextFieldContent() {
+        return conditionTextField.getText();
+    }
+
+    public String getXCoordinateFieldContent() {
+        return xCoordinateField.getText();
+    }
+
+    public String getYCoordinateFieldContent() {
+        return yCoordinateField.getText();
+    }
 }
