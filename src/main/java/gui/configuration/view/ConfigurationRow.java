@@ -50,7 +50,9 @@ public class ConfigurationRow {
                             break;
                         case "Checkbox":
                             configPanel.removeAll();
-                            // TODO
+                            CheckboxPanel newCheckboxPanel = new CheckboxPanel();
+                            configObject = newCheckboxPanel;
+                            configPanel.add(newCheckboxPanel.getMainView());
                             configPanel.revalidate();
                             configPanel.repaint();
                             break;
@@ -88,14 +90,17 @@ public class ConfigurationRow {
         switch (selectComboOption) {
             case "Print":
                 PrintPanel printPanelView = (PrintPanel) configObject;
+                // TODO: Move this logic over to PrintPanel
                 outputArray = new String[]{printPanelView.getFontSizeFieldContent(), printPanelView.getPrintTextFieldContent(), printPanelView.getXCoordinateFieldContent(), printPanelView.getYCoordinateFieldContent()};
                 break;
             case "Lookup":
                 LookupPanel lookupPanelView = (LookupPanel) configObject;
+                // TODO: Move this logic over to LookupPanel
                 outputArray = new String[]{lookupPanelView.getFontSizeFieldContent(), lookupPanelView.getColumnNameFieldContent(), lookupPanelView.getXCoordinateFieldContent(), lookupPanelView.getYCoordinateFieldContent()};
                 break;
             case "Checkbox":
-                // TODO
+                CheckboxPanel checkboxPanelView = (CheckboxPanel) configObject;
+                outputArray = checkboxPanelView.stringConfig();
                 break;
             default:
                 throw new IllegalArgumentException("Unknown ComboxBox selection chosen");

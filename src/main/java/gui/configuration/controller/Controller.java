@@ -1,9 +1,6 @@
 package gui.configuration.controller;
 
-import configuration.ConfigurationFile;
-import configuration.ConfigurationLookup;
-import configuration.ConfigurationPrint;
-import configuration.ExcelPDFConfiguration;
+import configuration.*;
 import gui.configuration.model.Model;
 import gui.configuration.view.ConfigurationRow;
 import gui.configuration.view.Configure;
@@ -67,7 +64,9 @@ public class Controller implements ActionListener {
                         configurationsSet.add(configLookupToAdd);
                         break;
                     case "Checkbox":
-                        // TODO
+                        String[] checkboxConfigArray = rows.generateConfigArray();
+                        ConfigurationCheckbox configCheckboxToAdd = new ConfigurationCheckbox(checkboxConfigArray);
+                        configurationsSet.add(configCheckboxToAdd);
                         break;
                     default:
                         throw new IllegalArgumentException("Unknown ComboxBox selection chosen");

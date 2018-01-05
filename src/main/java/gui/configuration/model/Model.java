@@ -15,7 +15,6 @@ public class Model extends Observable {
     /**
      * List of configuration rows to be displayed.
      */
-//    private ArrayList<LookupPanel> configurationRows;
     private ArrayList<ConfigurationRow> configurationRows;
 
     public Model() {

@@ -32,18 +32,18 @@ public class Configure implements Observer {
         // Initilize main JFrame
         JFrame frame = new JFrame("Create configuration file");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        initializeAddPanel();
+        initializeMainBodyPanel();
         frame.setContentPane(MainView);
-        frame.setSize(850, 600);
+        frame.setSize(880, 600);
         frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     /**
-     * Create the panel containing the add button.
+     * Initialize main body panel that will contain configuration rows and the overall add button
      */
-    private void initializeAddPanel() {
+    private void initializeMainBodyPanel() {
         // BoxLayout layout manager is used for adding new ConfigurationRow components to this view
         // Note: body JPanel in Configure.form needs "Layout Manager" variable to not be GridLayoutManager (IntelliJ)
         //       in order to prevent a NullPointerException at runtime.
