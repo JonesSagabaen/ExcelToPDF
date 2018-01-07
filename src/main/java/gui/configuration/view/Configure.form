@@ -103,12 +103,12 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="b4aad" class="javax.swing.JButton" binding="submitButton">
+                  <component id="b4aad" class="javax.swing.JButton" binding="createButton">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text value="Submit"/>
+                      <text value="Create File"/>
                     </properties>
                   </component>
                   <hspacer id="56f1">

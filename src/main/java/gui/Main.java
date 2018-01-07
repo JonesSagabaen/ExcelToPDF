@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import configuration.*;
 import excel.ExcelReader;
+import gui.configuration.ConfigurationLauncher;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import pdf.WriteToPDF;
 
@@ -37,7 +38,7 @@ public class Main {
     /**
      * Set variable to true to enable use of test configuration file.
      */
-    private final boolean ENABLE_TEST_CONFIGURATION_FILE = true;
+    private final boolean ENABLE_TEST_CONFIGURATION_FILE = false;
 
     /**
      * Constructor for putting everything together for running the app.
@@ -45,7 +46,7 @@ public class Main {
      */
     public Main(JFrame frame) {
         // Custom UI modifications
-        setMenubar(frame );
+        setMenubar(frame);
         setFurtherUICustomizations();
 
         // Get directory from where this app is launched
@@ -110,6 +111,10 @@ public class Main {
      */
     private void initializeConfigurationFile() {
         if (ENABLE_TEST_CONFIGURATION_FILE) {
+            JOptionPane.showMessageDialog(null,
+                    "Utilizing configuration file provided in ./src/test/resources directory.",
+                    "Debug Mode",
+                    JOptionPane.INFORMATION_MESSAGE);
             String testConfFileFilepath = classFilepath + "/src/test/resources" + ConfigurationFile.getFilenameStandardFormat();
             File testConfFile = new File(testConfFileFilepath);
             System.out.println("Test configuration file in use:");
@@ -128,13 +133,12 @@ public class Main {
         }
         // Prompt to create one if no configuration file has been found
         else {
-            // TODO: Create UI for composing a configuration file
             JOptionPane.showMessageDialog(null,
-                    "A valid configuration file (user.conf) is needed and must be placed in the same " +
-                            "location of this .JAR application.",
+                    "Proceed to create a configuration file that will map your Excel results " +
+                            "to you PDF file.",
                     "No Configuration File Found",
                     JOptionPane.ERROR_MESSAGE);
-            System.exit(0);
+            new ConfigurationLauncher().launch();
         }
     }
 
@@ -209,7 +213,7 @@ public class Main {
         else {
             writeToPDF.closePdf();
             JOptionPane.showMessageDialog(null,
-                            namesInExcelDoc,
+                    namesInExcelDoc,
                     "Multiple Matches",
                     JOptionPane.PLAIN_MESSAGE);
         }
@@ -248,8 +252,7 @@ public class Main {
         System.out.println(classFilepath + writeToPDF.getOutputPDF());
 
         JOptionPane.showMessageDialog(null,
-                "PDF file generated: \n" +
-                        classFilepath + writeToPDF.getOutputPDF(),
+                "PDF file generated: \n" + classFilepath + writeToPDF.getOutputPDF(),
                 "Successfully Composed PDF",
                 JOptionPane.PLAIN_MESSAGE);
     }
@@ -272,19 +275,25 @@ public class Main {
                 "File menu");
         menuBar.add(menuFile);
 
+        // About Create configuration file item
+        JMenuItem menuItemConfigure = new JMenuItem("Create configuration file...", KeyEvent.VK_C);
+        menuItemConfigure.addActionListener((ActionEvent e) ->
+                new ConfigurationLauncher().launch());
+        menuFile.add(menuItemConfigure);
+
         // About menu item
         JMenuItem menuItemAbout = new JMenuItem("About", KeyEvent.VK_A);
         menuItemAbout.getAccessibleContext().setAccessibleDescription(
                 "About developer");
         menuItemAbout.addActionListener((ActionEvent e) ->
-                JOptionPane.showMessageDialog(null,
-                        "Excel to PDF \n" +
-                                "https://github.com/JonesSagabaen/ExcelToPDF \n" +
-                                "\n" +
-                                "Developer: Jones Sagabaen \n" +
-                                "Build in November 10, 2017",
-                        "About",
-                        JOptionPane.PLAIN_MESSAGE));
+            JOptionPane.showMessageDialog(null,
+                    "Excel to PDF \n" +
+                    "https://github.com/JonesSagabaen/ExcelToPDF \n" +
+                    "\n" +
+                    "Developer: Jones Sagabaen \n" +
+                    "Build in November 10, 2017",
+                    "About",
+                    JOptionPane.PLAIN_MESSAGE));
         menuFile.add(menuItemAbout);
 
         // Exit menu item

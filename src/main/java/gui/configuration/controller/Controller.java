@@ -42,10 +42,8 @@ public class Controller implements ActionListener {
         }
         else if (e.getActionCommand().equals("Submit")) {
             System.out.println("Creating configuration file");
-
-            // TODO: Temporarily write to a test file
-//            String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources" + ConfigurationFile.getFilenameStandardFormat();
-            String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources/configCreatorTest.conf";
+            String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources" + ConfigurationFile.getFilenameStandardFormat();
+//            String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources/configCreatorTest.conf";
 
             ArrayList<ExcelPDFConfiguration> configurationsSet = new ArrayList<>();
             System.out.println("[Controller] Number of ConfigurationRows from model: " + model.getConfigurationRows().length);

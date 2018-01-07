@@ -17,7 +17,7 @@ public class Configure implements Observer {
     private JTextArea headerDescription;
     private JPanel bodyContainer;
     private JPanel body;
-    private JButton submitButton;
+    private JButton createButton;
 
     private Model model;
 
@@ -28,16 +28,23 @@ public class Configure implements Observer {
 
     private JButton addButton;
 
+//    // Need to remove JFrame reference since main method already uses it.  Can't have more than one.
+//    public Configure() {
+//        // Initilize main JFrame
+//        JFrame frame = new JFrame("Create configuration file");
+//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        initializeMainBodyPanel();
+//        frame.setContentPane(MainView);
+//        frame.setSize(880, 600);
+//        frame.setResizable(true);
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
+//    }
+
+    // TODO: This entire application works against IntelliJ debugger but not from fat .JAR.
+    // Attempt to fix by migrating this custom class to IntelliJ generated Dialog class, "ConfigureDialog.java."
     public Configure() {
-        // Initilize main JFrame
-        JFrame frame = new JFrame("Create configuration file");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         initializeMainBodyPanel();
-        frame.setContentPane(MainView);
-        frame.setSize(880, 600);
-        frame.setResizable(true);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
     }
 
     /**
@@ -84,7 +91,15 @@ public class Configure implements Observer {
     public void addController(ActionListener controller){
         System.out.println("[View Configure] Adding controller");
         addButton.addActionListener(controller);
-        submitButton.addActionListener(controller);
+        createButton.addActionListener(controller);
+    }
+
+    /**
+     * Use a JOptionPanel dialog window and display the contents of the Configuration creation UI within it.
+     */
+    public void presentDialogWindow() {
+        UIManager.put("OptionPane.minimumSize", new Dimension(950,700));
+        JOptionPane.showMessageDialog(null, MainView,"Create Configuration File", JOptionPane.PLAIN_MESSAGE);
     }
 
     public static class CloseListener extends WindowAdapter {
