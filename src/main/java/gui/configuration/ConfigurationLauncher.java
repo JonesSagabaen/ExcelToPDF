@@ -25,7 +25,6 @@ public class ConfigurationLauncher {
         // Setup Configure view
         configureView.addController(controller);
 
-        // TODO: May not be needed after migrating Configure.java to ConfigureDialog.java
         // Display pop-up window
         configureView.presentDialogWindow();
     }

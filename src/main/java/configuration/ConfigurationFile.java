@@ -82,6 +82,7 @@ public class ConfigurationFile {
             System.out.println("User configuration file created:");
             System.out.println(destinationFilepath);
         } catch (IOException e) {
+            System.err.println("Attempted file to create: " + destinationFilepath);
             e.printStackTrace();
         }
     }

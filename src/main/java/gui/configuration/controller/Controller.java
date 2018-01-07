@@ -40,10 +40,11 @@ public class Controller implements ActionListener {
             System.out.println("JButton parent: " + buttonParent);
             model.deleteConfigurationRow(buttonParent);
         }
-        else if (e.getActionCommand().equals("Submit")) {
+        else if (e.getActionCommand().equals("Create File")) {
             System.out.println("Creating configuration file");
-            String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources" + ConfigurationFile.getFilenameStandardFormat();
-//            String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources/configCreatorTest.conf";
+            String configurationFileCreateFilepath = new File("").getAbsolutePath() + ConfigurationFile.getFilenameStandardFormat();
+            // DEBUG: Utilize following line for temporarily outputting a configuration file
+            //String configurationFileCreateFilepath = new File("").getAbsolutePath() + "/src/test/resources/debugConfigFile.conf";
 
             ArrayList<ExcelPDFConfiguration> configurationsSet = new ArrayList<>();
             System.out.println("[Controller] Number of ConfigurationRows from model: " + model.getConfigurationRows().length);

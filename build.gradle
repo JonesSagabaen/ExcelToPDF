@@ -1,3 +1,22 @@
+//////////////////////////////////////////////////////////////////////
+// Building Executable JAR
+//////////////////////////////////////////////////////////////////////
+// 1.Open Gradle tab
+// 2. Select excel-to-pdf > Tasks > build > clean (Execute by double-clicking)
+// 3. Select excel-to-pdf > Tasks > build > build
+// 4. Select excel-to-pdf > Tasks > shadow > shadowJar
+// 5. Get executable JAR (a.k.a. Fat Jar, Uber Jar) from excel-to-pdf > build > libs
+//    Name of JAR ends with "-all.jar"
+//
+// To test JAR is functional, setup a run configuration in IntelliJ using the "JAR Application"
+// setup.  Locate built JAR and run/debug.
+//
+//////////////////////////////////////////////////////////////////////
+// IntelliJ UI Designer/Gradle Compatibility
+//////////////////////////////////////////////////////////////////////
+// Building fat JARs with Gradle requires an IntelliJ setting to be changed.
+// File > Preference > Editor > GUI Designer > Generate GUI into: Java source code
+
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '2.0.1'
@@ -28,16 +47,3 @@ jar {
         )
     }
 }
-
-//////////////////////////////////////////////////////////////////////
-// Building Executable JAR
-//////////////////////////////////////////////////////////////////////
-// 1.Open Gradle tab
-// 2. Select excel-to-pdf > Tasks > build > clean (Execute by double-clicking)
-// 3. Select excel-to-pdf > Tasks > build > build
-// 4. Select excel-to-pdf > Tasks > shadow > shadowJar
-// 5. Get executable JAR (a.k.a. Fat Jar, Uber Jar) from excel-to-pdf > build > libs
-//    Name of JAR ends with "-all.jar"
-//
-// To test JAR is functional, setup a run configuration in IntelliJ using the "JAR Application"
-// setup.  Locate built JAR and run/debug.
