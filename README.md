@@ -30,10 +30,13 @@ $ java -jar excel-to-pdf-1.0-SNAPSHOT-all.jar
 The application relies on a configuration file which maps columns from an Excel document to  
 properties for writing the text onto the PDF form. 
 
-Currently, this file needs to be manually created until further progress will have the user enter 
-the information and have the application generate this file.  
+Generating one can be done through the menu through: **File > Create configuration file...**
 
-### Format
+
+The user will be prompted at application launch if a configuration file is not detected.  The expected directory for 
+configuration file is in the same directory as the application .JAR file.
+
+### Format of Configuration File
 The configuration file can be created using any text editor but needs to be saved with the title **user.conf**. 
 The file must be placed in the same directory as the executable .JAR file.  
 
