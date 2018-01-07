@@ -26,6 +26,6 @@ public class ConfigurationLauncher {
         configureView.addController(controller);
 
         // Display pop-up window
-        configureView.presentDialogWindow();
+        configureView.openDialogWindow();
     }
 }

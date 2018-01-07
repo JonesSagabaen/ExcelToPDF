@@ -1,125 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.configuration.view.Configure">
   <grid id="27dc6" binding="MainView" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+    <margin top="30" left="30" bottom="30" right="30"/>
     <constraints>
       <xy x="20" y="20" width="1366" height="2506"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="3ff5a" binding="marginsPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="30" left="30" bottom="30" right="30"/>
+      <grid id="29149" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="29149" layout-manager="BorderLayout" hgap="0" vgap="0">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
+          <grid id="c92f6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints border-constraint="North"/>
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="c92f6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints border-constraint="North"/>
-                <properties/>
-                <border type="none"/>
+              <scrollpane id="5085e">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <verticalScrollBarPolicy value="21"/>
+                </properties>
+                <border type="empty"/>
                 <children>
-                  <scrollpane id="5085e">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
+                  <component id="e54c2" class="javax.swing.JTextArea" binding="headerDescription">
+                    <constraints/>
                     <properties>
-                      <verticalScrollBarPolicy value="21"/>
+                      <background color="-1250068"/>
+                      <editable value="false"/>
+                      <enabled value="true"/>
+                      <foreground color="-16777216"/>
+                      <lineWrap value="true"/>
+                      <text value="Enter the information for mapping the Excel column to do a lookup to the location for where the results will be placed onto the PDF document."/>
+                      <wrapStyleWord value="true"/>
                     </properties>
-                    <border type="empty"/>
-                    <children>
-                      <component id="e54c2" class="javax.swing.JTextArea" binding="headerDescription">
-                        <constraints/>
-                        <properties>
-                          <background color="-1250068"/>
-                          <editable value="false"/>
-                          <enabled value="true"/>
-                          <foreground color="-16777216"/>
-                          <lineWrap value="true"/>
-                          <text value="Enter the information for mapping the Excel column to do a lookup to the location for where the results will be placed onto the PDF document."/>
-                          <wrapStyleWord value="true"/>
-                        </properties>
-                      </component>
-                    </children>
-                  </scrollpane>
+                  </component>
                 </children>
-              </grid>
-              <grid id="4fe00" binding="bodyContainer" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="30" left="0" bottom="0" right="0"/>
-                <constraints border-constraint="Center"/>
+              </scrollpane>
+            </children>
+          </grid>
+          <grid id="4fe00" binding="bodyContainer" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="30" left="0" bottom="0" right="0"/>
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <scrollpane id="b8d8c">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="900" height="600"/>
+                  </grid>
+                </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <scrollpane id="b8d8c">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                        <preferred-size width="900" height="600"/>
-                      </grid>
-                    </constraints>
+                  <grid id="739e8" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints/>
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <grid id="739e8" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
-                        <constraints/>
+                      <grid id="b91d6" binding="body" layout-manager="GridBagLayout">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
                         <properties/>
                         <border type="none"/>
-                        <children>
-                          <grid id="b91d6" binding="body" layout-manager="GridBagLayout">
-                            <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                            <border type="none"/>
-                            <children/>
-                          </grid>
-                          <hspacer id="637d3">
-                            <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                          </hspacer>
-                          <vspacer id="a97b3">
-                            <constraints>
-                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                          </vspacer>
-                        </children>
+                        <children/>
                       </grid>
+                      <hspacer id="637d3">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </hspacer>
+                      <vspacer id="a97b3">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </vspacer>
                     </children>
-                  </scrollpane>
+                  </grid>
                 </children>
-              </grid>
-              <grid id="e38fb" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints border-constraint="South"/>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="b4aad" class="javax.swing.JButton" binding="createButton">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="Create File"/>
-                    </properties>
-                  </component>
-                  <hspacer id="56f1">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                </children>
-              </grid>
+              </scrollpane>
+            </children>
+          </grid>
+          <grid id="e38fb" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints border-constraint="South"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <hspacer id="56f1">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="4bc58" class="javax.swing.JButton" binding="cancelButton">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Cancel"/>
+                </properties>
+              </component>
+              <component id="b2f2e" class="javax.swing.JButton" binding="createButton">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Create File"/>
+                </properties>
+              </component>
             </children>
           </grid>
         </children>

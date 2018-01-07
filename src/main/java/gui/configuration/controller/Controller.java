@@ -39,8 +39,9 @@ public class Controller implements ActionListener {
             JPanel buttonParent = (JPanel) ((JButton) e.getSource()).getParent().getParent().getParent().getParent();
             System.out.println("JButton parent: " + buttonParent);
             model.deleteConfigurationRow(buttonParent);
-        }
-        else if (e.getActionCommand().equals("Create File")) {
+        } else if (e.getActionCommand().equals("Cancel")) {
+            configureView.closeDialogWindow();
+        } else if (e.getActionCommand().equals("Create File")) {
             System.out.println("Creating configuration file");
             String configurationFileCreateFilepath = new File("").getAbsolutePath() + ConfigurationFile.getFilenameStandardFormat();
             // DEBUG: Utilize following line for temporarily outputting a configuration file
@@ -74,12 +75,12 @@ public class Controller implements ActionListener {
             ConfigurationFile.createConfigurationFile(configurationFileCreateFilepath, configurationsSet.toArray(new ExcelPDFConfiguration[configurationsSet.size()]));
             System.out.println("[Controller] Configuration file successfully created: " + configurationFileCreateFilepath);
 
+            configureView.closeDialogWindow();
             JOptionPane.showMessageDialog(null,
                     "Configuration file generated: \n" + configurationFileCreateFilepath,
                     "Successfully Composed Configuration File",
                     JOptionPane.PLAIN_MESSAGE);
-        }
-        else
+        } else
             System.out.println("[Controller] Error with action event " + e.getActionCommand());
     }
 

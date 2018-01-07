@@ -16,13 +16,13 @@ import java.util.Observer;
 
 public class Configure implements Observer {
     private JPanel MainView;
-    private JPanel marginsPanel;
     private JTextArea headerDescription;
     private JPanel bodyContainer;
     private JPanel body;
     private JButton createButton;
+    private JButton cancelButton;
 
-    private Model model;
+    private JDialog dialog;
 
     /**
      * Panel containing the add button.
@@ -31,13 +31,20 @@ public class Configure implements Observer {
 
     private JButton addButton;
 
-    // Attempt to fix by migrating this custom class to IntelliJ generated Dialog class, "ConfigureDialog.java."
     public Configure() {
+        dialog = new JDialog();
+        dialog.setTitle("Create Configuration File");
+        dialog.setModal(true);
+        dialog.setContentPane(MainView);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.pack();
+
         initializeMainBodyPanel();
+        setFurtherUICustomizations();
     }
 
     /**
-     * Initialize main body panel that will contain configuration rows and the overall add button
+     * Initialize main body panel that will contain configuration rows and the body's add button
      */
     private void initializeMainBodyPanel() {
         // BoxLayout layout manager is used for adding new ConfigurationRow components to this view
@@ -51,6 +58,20 @@ public class Configure implements Observer {
         addButton.setText("+");
         addButtonPanel.add(addButton);
         body.add(addButtonPanel);
+    }
+
+    /**
+     * All further UI customizations are contained here where commenting out this method will still run the app
+     * but without these customizations.
+     */
+    private void setFurtherUICustomizations() {
+        // Create button
+        createButton.setBackground(Color.decode("#24A3FF"));
+        createButton.setForeground(Color.WHITE);
+        createButton.setOpaque(true);
+        createButton.setFocusPainted(false);
+        createButton.setBorderPainted(false);
+        createButton.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 10));
     }
 
     /**
@@ -80,15 +101,24 @@ public class Configure implements Observer {
 
     public void addController(ActionListener controller) {
         System.out.println("[View Configure] Adding controller");
+        cancelButton.addActionListener(controller);
         addButton.addActionListener(controller);
         createButton.addActionListener(controller);
     }
 
     /**
-     * Use a JOptionPanel dialog window and display the contents of the Configuration creation UI within it.
+     * Open the dialog window.
      */
-    public void presentDialogWindow() {
-        JOptionPane.showMessageDialog(null, MainView, "Create Configuration File", JOptionPane.PLAIN_MESSAGE);
+    public void openDialogWindow() {
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
+
+    /**
+     * Close the dialog window.
+     */
+    public void closeDialogWindow() {
+        dialog.setVisible(false);
     }
 
     {
@@ -107,13 +137,10 @@ public class Configure implements Observer {
      */
     private void $$$setupUI$$$() {
         MainView = new JPanel();
-        MainView.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        marginsPanel = new JPanel();
-        marginsPanel.setLayout(new GridLayoutManager(1, 1, new Insets(30, 30, 30, 30), -1, -1));
-        MainView.add(marginsPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        MainView.setLayout(new GridLayoutManager(1, 1, new Insets(30, 30, 30, 30), -1, -1));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new BorderLayout(0, 0));
-        marginsPanel.add(panel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        MainView.add(panel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel2, BorderLayout.NORTH);
@@ -146,13 +173,16 @@ public class Configure implements Observer {
         final Spacer spacer2 = new Spacer();
         panel3.add(spacer2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel4 = new JPanel();
-        panel4.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel4.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel4, BorderLayout.SOUTH);
-        createButton = new JButton();
-        createButton.setText("Create File");
-        panel4.add(createButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
         panel4.add(spacer3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        cancelButton = new JButton();
+        cancelButton.setText("Cancel");
+        panel4.add(cancelButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        createButton = new JButton();
+        createButton.setText("Create File");
+        panel4.add(createButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
