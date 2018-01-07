@@ -149,6 +149,8 @@ public class ExcelReader {
      */
     public int getRowIndex(String nameLookup) {
         // Get name column
+        // TODO: Have headerName be passed from this method's parameters since users are likely to have a different
+        // Excel column header string than just "name"
         int nameColumnIndex = getColumnIndex("name");
 
         for (int rowIterator = 0; rowIterator <= sheet.getLastRowNum(); rowIterator++) {
