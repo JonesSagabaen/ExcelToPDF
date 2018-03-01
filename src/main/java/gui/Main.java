@@ -18,11 +18,16 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 
 public class Main {
 
     private String classFilepath;
     private ConfigurationFile configurationFile;
+
+    private JRadioButtonMenuItem blackPrint;
+    private JRadioButtonMenuItem redPrint;
+    private JRadioButtonMenuItem bluePrint;
 
     private JPanel mainView;
     private JTextField inputExcelFilepathField;
@@ -225,6 +230,14 @@ public class Main {
      * @param excelReader The excelReader information source.
      */
     private void write(ExcelReader excelReader, WriteToPDF writeToPDF) {
+        try {
+            writeToPDF.setPrintTextColor(getPrintColorPreference());
+        } catch (InvalidObjectException e) {
+            System.out.println("Text color for PDF output could not have been set.  " +
+                    "Unexpected results may occur if this error is not resolved.");
+            e.printStackTrace();
+        }
+
         for (ExcelPDFConfiguration conf : configurationFile.getConfigurationFields()) {
             if (conf instanceof ConfigurationPrint) {
                 ConfigurationPrint confPrint = (ConfigurationPrint) conf;
@@ -275,11 +288,34 @@ public class Main {
                 "File menu");
         menuBar.add(menuFile);
 
-        // About Create configuration file item
+        // Create configuration file item
         JMenuItem menuItemConfigure = new JMenuItem("Create configuration file...", KeyEvent.VK_C);
         menuItemConfigure.addActionListener((ActionEvent e) ->
                 new ConfigurationLauncher().launch());
         menuFile.add(menuItemConfigure);
+
+        // Menu/submenu for selecting output print color
+        JMenu submenu = new JMenu("Print color");
+        submenu.setMnemonic(KeyEvent.VK_C);
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        blackPrint = new JRadioButtonMenuItem("Black", true);
+        blackPrint.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        buttonGroup.add(blackPrint);
+        submenu.add(blackPrint);
+        redPrint = new JRadioButtonMenuItem("Red");
+        redPrint.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_2, ActionEvent.ALT_MASK));
+        buttonGroup.add(redPrint);
+        submenu.add(redPrint);
+        bluePrint = new JRadioButtonMenuItem("Blue");
+        bluePrint.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_3, ActionEvent.ALT_MASK));
+        buttonGroup.add(bluePrint);
+        submenu.add(bluePrint);
+
+        menuFile.add(submenu);
 
         // About menu item
         JMenuItem menuItemAbout = new JMenuItem("About", KeyEvent.VK_A);
@@ -305,6 +341,21 @@ public class Main {
 
         // Add menubar to application
         frame.setJMenuBar(menuBar);
+    }
+
+    /**
+     * Get the print color selected from the menu by the user.
+     * @return      Plain text of what color has been selected by the user.
+     */
+    private String getPrintColorPreference() {
+        if (blackPrint.isSelected())
+            return "Black";
+        else if (redPrint.isSelected())
+            return "Red";
+        else if (bluePrint.isSelected())
+            return "Blue";
+
+        return null;
     }
 
     /**

@@ -13,6 +13,7 @@ import com.itextpdf.layout.element.Text;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 
 public class WriteToPDF {
 
@@ -57,9 +58,6 @@ public class WriteToPDF {
         this.basePDF = basePDF;
         this.outputPDF = outputPDF;
 
-        // Set default color value
-        printTextColor = Color.RED;
-
         //Initialize PDF document
         PdfDocument pdfDoc = null;
         pdfDocument = new PdfDocument(new PdfReader(this.basePDF), new PdfWriter(this.outputPDF));
@@ -79,10 +77,18 @@ public class WriteToPDF {
 
     /**
      * Set the color for writing annotations that are to be done.
-     * @param printTextColor    The desired color for writing annotations.
+     * @param printTextColor    All possible text color options that is available for the user to select.
+     * @throws InvalidObjectException
      */
-    public void setPrintTextColor(Color printTextColor) {
-        this.printTextColor = printTextColor;
+    public void setPrintTextColor(String printTextColor) throws InvalidObjectException {
+        if (printTextColor.equalsIgnoreCase("black"))
+            this.printTextColor = Color.BLACK;
+        else if (printTextColor.equalsIgnoreCase("red"))
+            this.printTextColor = Color.RED;
+        else if (printTextColor.equalsIgnoreCase("blue"))
+            this.printTextColor = Color.BLUE;
+        else
+            throw new InvalidObjectException("Could not handle color parameter given.");
     }
 
     /**

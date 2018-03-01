@@ -19,7 +19,7 @@ public class ExcelReaderTest {
         String expectedOutput = "||||||ID Digits|||||||Department|Security|Additional Notes||\n" +
                 "|Row #|Name|Email Address|Newsletter Signup|ID Number|1|2|3|4|5|Birthday|Anniversary|||||\n" +
                 "|1|Takahashi, Ryo|ryotakahashi@testgmail.com|Yes|55501|5|5|5|0|1|05/18/80|09/XX/92|PR|Tier 3|Blue blazer|\n" +
-                "|2|Urbosa, Menat-Darud|durbosa@testgmail.com|Yes|55502|5|5|5|0|2|10/22/74|04/30/01|Facilities|Denied|N/A|\n" +
+                "|2|Urbosa, Mena-Darud|durbosa@testgmail.com|Yes|55502|5|5|5|0|2|10/22/74|04/30/01|Facilities|Denied|N/A|\n" +
                 "|3|Collins, Phil|therealphilcollins@testaol.com||55503|5|5|5|0|3|02/30/02|12/01/11|Researcher|Tier 2|5’3”|\n" +
                 "|4|Collins, Cecille|cecille-collins@testtumblr.com|No|3940|3|9|4|0||01/XX/99||Intern|Temp|3.2.1.0|\n" +
                 "||Collins, Phil|therealphilcollins@testaol.com||55503|5|5|5|0|3|02/30/02|12/01/11|Researcher|Tier 2|5’3”|\n" +

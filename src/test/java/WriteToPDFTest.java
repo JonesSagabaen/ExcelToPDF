@@ -1,13 +1,53 @@
+import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import org.junit.Assert;
 import org.junit.Test;
 import pdf.WriteToPDF;
 
 import java.io.File;
+import java.io.InvalidObjectException;
 
 public class WriteToPDFTest {
 
     private final String inputPDF = "src/test/resources/SignUpForm.pdf";
+
+    @Test
+    public void setPrintColor_blackColor() throws Exception {
+        final String outputPDF = "out/test/resources/notSupposedToExist.pdf";
+
+        WriteToPDF writeToPDF = new WriteToPDF(inputPDF, outputPDF);
+        writeToPDF.setPrintTextColor("black");
+        Color resultColor = writeToPDF.getPrintTextColor();
+        Assert.assertEquals(Color.BLACK, resultColor);
+    }
+
+    @Test
+    public void setPrintColor_redColor() throws Exception {
+        final String outputPDF = "out/test/resources/notSupposedToExist.pdf";
+
+        WriteToPDF writeToPDF = new WriteToPDF(inputPDF, outputPDF);
+        writeToPDF.setPrintTextColor("red");
+        Color resultColor = writeToPDF.getPrintTextColor();
+        Assert.assertEquals(Color.RED, resultColor);
+    }
+
+    @Test
+    public void setPrintColor_blueColor() throws Exception {
+        final String outputPDF = "out/test/resources/notSupposedToExist.pdf";
+
+        WriteToPDF writeToPDF = new WriteToPDF(inputPDF, outputPDF);
+        writeToPDF.setPrintTextColor("blue");
+        Color resultColor = writeToPDF.getPrintTextColor();
+        Assert.assertEquals(Color.BLUE, resultColor);
+    }
+
+    @Test(expected = InvalidObjectException.class)
+    public void setPrintColor_invalid() throws Exception {
+        final String outputPDF = "out/test/resources/notSupposedToExist.pdf";
+
+        WriteToPDF writeToPDF = new WriteToPDF(inputPDF, outputPDF);
+        writeToPDF.setPrintTextColor("rainbow");
+    }
 
     @Test
     public void writeInPDF() throws Exception {
