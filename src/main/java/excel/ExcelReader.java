@@ -33,6 +33,11 @@ public class ExcelReader {
     private int headerRowsCount;
 
     /**
+     * The header for the column containing all names that lookups will be performed against.
+     */
+    private String nameHeader;
+
+    /**
      * Instantiate the class with a given Excel document and parse the headers for use by this class.
      * @param excelFilepath     The path of the Excel document.
      * @param headerRowsCount   The number of rows in the header of the Excel document.
@@ -41,6 +46,7 @@ public class ExcelReader {
         this.setRelevantWorkbook(excelFilepath);
         sheet = ExcelReader.workbook.getSheetAt(0);
         this.headerRowsCount = headerRowsCount;
+        this.nameHeader = "name";
     }
 
     /**
@@ -149,9 +155,7 @@ public class ExcelReader {
      */
     public int getRowIndex(String nameLookup) {
         // Get name column
-        // TODO: Have headerName be passed from this method's parameters since users are likely to have a different
-        // Excel column header string than just "name"
-        int nameColumnIndex = getColumnIndex("name");
+        int nameColumnIndex = getColumnIndex(nameHeader);
 
         for (int rowIterator = 0; rowIterator <= sheet.getLastRowNum(); rowIterator++) {
             Row currentRow = sheet.getRow(rowIterator);
