@@ -288,7 +288,7 @@ public class Main {
                 "File menu");
         menuBar.add(menuFile);
 
-        // Create configuration file item
+        // Create configuration file menu item
         JMenuItem menuItemConfigure = new JMenuItem("Create configuration file...", KeyEvent.VK_C);
         menuItemConfigure.addActionListener((ActionEvent e) ->
                 new ConfigurationLauncher().launch());
